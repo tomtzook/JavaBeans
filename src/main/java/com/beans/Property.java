@@ -10,9 +10,8 @@ import java.util.function.Supplier;
  *     An extension of {@link Supplier}, with mutability.
  * </p>
  * <p>
- *     A property is effectively <em>nullable</em>.
+ *     A property is <em>nullable</em>.
  * </p>
- *
  *
  * @param <T> type of data
  *
