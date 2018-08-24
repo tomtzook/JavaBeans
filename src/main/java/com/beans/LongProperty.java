@@ -10,6 +10,9 @@ import java.util.function.LongSupplier;
  * <p>
  *     An extension of {@link LongSupplier}.
  * </p>
+ * <p>
+ *     This property is <b>not</b> <em>nullable</em>.
+ * </p>
  *
  * @since JavaBeans 1.0
  */

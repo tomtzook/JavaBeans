@@ -10,6 +10,9 @@ import java.util.function.BooleanSupplier;
  * <p>
  *     An extension of {@link BooleanSupplier}.
  * </p>
+ * <p>
+ *     This property is <b>not</b> <em>nullable</em>.
+ * </p>
  *
  * @since JavaBeans 1.0
  */

@@ -10,6 +10,9 @@ import java.util.function.IntSupplier;
  * <p>
  *     An extension of {@link IntSupplier}.
  * </p>
+ * <p>
+ *     This property is <b>not</b> <em>nullable</em>.
+ * </p>
  *
  * @since JavaBeans 1.0
  */
