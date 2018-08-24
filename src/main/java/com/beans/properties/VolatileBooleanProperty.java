@@ -1,8 +1,6 @@
 package com.beans.properties;
 
-import com.beans.BooleanProperty;
-
-public class VolatileBooleanProperty implements BooleanProperty {
+public class VolatileBooleanProperty extends BooleanPropertyBase {
 
     private volatile boolean mValue;
 
@@ -22,10 +20,5 @@ public class VolatileBooleanProperty implements BooleanProperty {
     @Override
     public boolean getAsBoolean() {
         return mValue;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(mValue);
     }
 }

@@ -1,8 +1,6 @@
 package com.beans.properties;
 
-import com.beans.LongProperty;
-
-public class VolatileLongProperty implements LongProperty {
+public class VolatileLongProperty extends LongPropertyBase {
 
     private volatile long mValue;
 
@@ -22,10 +20,5 @@ public class VolatileLongProperty implements LongProperty {
     @Override
     public long getAsLong() {
         return mValue;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(mValue);
     }
 }

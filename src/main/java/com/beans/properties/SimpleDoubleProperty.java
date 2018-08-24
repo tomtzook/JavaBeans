@@ -1,8 +1,6 @@
 package com.beans.properties;
 
-import com.beans.DoubleProperty;
-
-public class SimpleDoubleProperty implements DoubleProperty {
+public class SimpleDoubleProperty extends DoublePropertyBase {
     
     private double mValue;
 

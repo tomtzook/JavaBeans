@@ -1,8 +1,6 @@
 package com.beans.properties;
 
-import com.beans.IntProperty;
-
-public class VolatileIntProperty implements IntProperty {
+public class VolatileIntProperty extends IntPropertyBase {
 
     private volatile int mValue;
 
@@ -22,10 +20,5 @@ public class VolatileIntProperty implements IntProperty {
     @Override
     public int getAsInt() {
         return mValue;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(mValue);
     }
 }

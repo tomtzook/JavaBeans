@@ -1,8 +1,6 @@
 package com.beans.properties;
 
-import com.beans.Property;
-
-public class VolatileProperty<T> implements Property<T> {
+public class VolatileProperty<T> extends PropertyBase<T> {
 
     private volatile T mValue;
 
@@ -22,10 +20,5 @@ public class VolatileProperty<T> implements Property<T> {
     @Override
     public T get() {
         return mValue;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(mValue);
     }
 }

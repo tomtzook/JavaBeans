@@ -1,8 +1,6 @@
 package com.beans.properties;
 
-import com.beans.IntProperty;
-
-public class SimpleIntProperty implements IntProperty {
+public class SimpleIntProperty extends IntPropertyBase {
 
     private int mValue;
 
@@ -22,10 +20,5 @@ public class SimpleIntProperty implements IntProperty {
     @Override
     public int getAsInt() {
         return mValue;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(mValue);
     }
 }

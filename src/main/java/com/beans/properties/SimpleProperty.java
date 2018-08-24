@@ -1,8 +1,6 @@
 package com.beans.properties;
 
-import com.beans.Property;
-
-public class SimpleProperty<T> implements Property<T> {
+public class SimpleProperty<T> extends PropertyBase<T> {
 
     private T mValue;
 
@@ -22,10 +20,5 @@ public class SimpleProperty<T> implements Property<T> {
     @Override
     public T get() {
         return mValue;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(mValue);
     }
 }

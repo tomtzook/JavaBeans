@@ -1,8 +1,6 @@
 package com.beans.properties;
 
-import com.beans.LongProperty;
-
-public class SimpleLongProperty implements LongProperty {
+public class SimpleLongProperty extends LongPropertyBase {
 
     private long mValue;
 
@@ -22,10 +20,5 @@ public class SimpleLongProperty implements LongProperty {
     @Override
     public long getAsLong() {
         return mValue;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(mValue);
     }
 }

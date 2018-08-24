@@ -1,8 +1,6 @@
 package com.beans.properties;
 
-import com.beans.DoubleProperty;
-
-public class VolatileDoubleProperty implements DoubleProperty {
+public class VolatileDoubleProperty extends DoublePropertyBase {
 
     private volatile double mValue;
 
