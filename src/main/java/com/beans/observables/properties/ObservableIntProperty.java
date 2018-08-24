@@ -20,8 +20,8 @@ import com.beans.IntProperty;
  */
 public abstract class ObservableIntProperty extends ObservablePropertyBase<Integer> implements IntProperty {
 
-    protected ObservableIntProperty(int initialValue, boolean threadSafe) {
-        super(initialValue, threadSafe);
+    protected ObservableIntProperty(boolean threadSafe) {
+        super(threadSafe);
     }
 
     /**

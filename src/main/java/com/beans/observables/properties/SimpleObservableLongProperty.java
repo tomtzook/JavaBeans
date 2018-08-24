@@ -14,7 +14,7 @@ public class SimpleObservableLongProperty extends ObservableLongProperty {
     private long mValue;
 
     public SimpleObservableLongProperty(long initialValue) {
-        super(initialValue, false);
+        super(false);
         mValue = initialValue;
     }
 
@@ -28,8 +28,9 @@ public class SimpleObservableLongProperty extends ObservableLongProperty {
     @Override
     public void setAsLong(long value) {
         if (mValue != value) {
+            long oldValue = mValue;
             mValue = value;
-            fireValueChangedEvent(value);
+            fireValueChangedEvent(oldValue, value);
         }
     }
 

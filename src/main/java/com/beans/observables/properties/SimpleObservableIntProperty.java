@@ -14,7 +14,7 @@ public class SimpleObservableIntProperty extends ObservableIntProperty {
     private int mValue;
 
     public SimpleObservableIntProperty(int initialValue) {
-        super(initialValue, false);
+        super(false);
         mValue = initialValue;
     }
 
@@ -28,8 +28,9 @@ public class SimpleObservableIntProperty extends ObservableIntProperty {
     @Override
     public void setAsInt(int value) {
         if (mValue != value) {
+            int oldValue = mValue;
             mValue = value;
-            fireValueChangedEvent(value);
+            fireValueChangedEvent(oldValue, value);
         }
     }
 

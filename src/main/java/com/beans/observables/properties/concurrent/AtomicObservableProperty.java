@@ -28,7 +28,7 @@ public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
     private volatile T mValue;
 
     public AtomicObservableProperty(T initialValue) {
-        super(initialValue, true);
+        super(true);
         mValue = initialValue;
     }
 
@@ -43,8 +43,9 @@ public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
     public void set(T value) {
         synchronized (this) {
             if (mValue != value) {
+                T oldValue = mValue;
                 mValue = value;
-                fireValueChangedEvent(value);
+                fireValueChangedEvent(oldValue, value);
             }
         }
     }

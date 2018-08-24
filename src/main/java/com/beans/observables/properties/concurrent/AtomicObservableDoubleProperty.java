@@ -26,7 +26,7 @@ public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
     private volatile double mValue;
 
     public AtomicObservableDoubleProperty(double initialValue) {
-        super(initialValue, true);
+        super(true);
         mValue = initialValue;
     }
 
@@ -41,8 +41,9 @@ public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
     public void setAsDouble(double value) {
         synchronized (this) {
             if (mValue != value) {
+                double oldValue = mValue;
                 mValue = value;
-                fireValueChangedEvent(value);
+                fireValueChangedEvent(oldValue, value);
             }
         }
     }

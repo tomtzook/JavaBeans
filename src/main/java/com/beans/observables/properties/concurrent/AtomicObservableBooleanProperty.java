@@ -26,7 +26,7 @@ public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
     private volatile boolean mValue;
 
     public AtomicObservableBooleanProperty(boolean initialValue) {
-        super(initialValue, true);
+        super(true);
         mValue = initialValue;
     }
 
@@ -41,8 +41,9 @@ public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
     public void setAsBoolean(boolean value) {
         synchronized (this) {
             if (mValue != value) {
+                boolean oldValue = mValue;
                 mValue = value;
-                fireValueChangedEvent(value);
+                fireValueChangedEvent(oldValue, value);
             }
         }
     }

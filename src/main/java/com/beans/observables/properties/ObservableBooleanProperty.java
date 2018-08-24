@@ -20,8 +20,8 @@ import com.beans.BooleanProperty;
  */
 public abstract class ObservableBooleanProperty extends ObservablePropertyBase<Boolean> implements BooleanProperty {
 
-    protected ObservableBooleanProperty(boolean initialValue, boolean threadSafe) {
-        super(initialValue, threadSafe);
+    protected ObservableBooleanProperty(boolean threadSafe) {
+        super(threadSafe);
     }
 
     /**

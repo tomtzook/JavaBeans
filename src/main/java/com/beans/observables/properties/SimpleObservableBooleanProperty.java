@@ -14,7 +14,7 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
     private boolean mValue;
 
     public SimpleObservableBooleanProperty(boolean initialValue) {
-        super(initialValue, false);
+        super(false);
         mValue = initialValue;
     }
 
@@ -28,8 +28,9 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
     @Override
     public void setAsBoolean(boolean value) {
         if (mValue != value) {
+            boolean oldValue = mValue;
             mValue = value;
-            fireValueChangedEvent(value);
+            fireValueChangedEvent(oldValue, value);
         }
     }
 

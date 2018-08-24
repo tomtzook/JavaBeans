@@ -26,7 +26,7 @@ public class AtomicObservableIntProperty extends ObservableIntProperty {
     private volatile int mValue;
 
     public AtomicObservableIntProperty(int initialValue) {
-        super(initialValue, true);
+        super(true);
         mValue = initialValue;
     }
 
@@ -41,8 +41,9 @@ public class AtomicObservableIntProperty extends ObservableIntProperty {
     public void setAsInt(int value) {
         synchronized (this) {
             if (mValue != value) {
+                int oldValue = mValue;
                 mValue = value;
-                fireValueChangedEvent(value);
+                fireValueChangedEvent(oldValue, value);
             }
         }
     }

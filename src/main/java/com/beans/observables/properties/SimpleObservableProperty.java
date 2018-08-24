@@ -18,7 +18,7 @@ public class SimpleObservableProperty<T> extends ObservablePropertyBase<T> {
     private T mValue;
 
     public SimpleObservableProperty(T initialValue) {
-        super(initialValue, false);
+        super(false);
         mValue = initialValue;
     }
 
@@ -32,8 +32,9 @@ public class SimpleObservableProperty<T> extends ObservablePropertyBase<T> {
     @Override
     public void set(T value) {
         if (!Objects.equals(mValue, value)) {
+            T oldValue = mValue;
             mValue = value;
-            fireValueChangedEvent(value);
+            fireValueChangedEvent(oldValue, value);
         }
     }
 

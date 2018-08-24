@@ -26,7 +26,7 @@ public class AtomicObservableLongProperty extends ObservableLongProperty {
     private volatile long mValue;
 
     public AtomicObservableLongProperty(long initialValue) {
-        super(initialValue, true);
+        super(true);
         mValue = initialValue;
     }
 
@@ -41,8 +41,9 @@ public class AtomicObservableLongProperty extends ObservableLongProperty {
     public void setAsLong(long value) {
         synchronized (this) {
             if (mValue != value) {
+                long oldValue = mValue;
                 mValue = value;
-                fireValueChangedEvent(value);
+                fireValueChangedEvent(oldValue, value);
             }
         }
     }

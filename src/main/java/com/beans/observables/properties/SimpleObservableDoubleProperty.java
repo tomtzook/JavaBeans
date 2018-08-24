@@ -14,7 +14,7 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
     private double mValue;
 
     public SimpleObservableDoubleProperty(double initialValue) {
-        super(initialValue, false);
+        super(false);
         mValue = initialValue;
     }
 
@@ -28,8 +28,9 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
     @Override
     public void setAsDouble(double value) {
         if (mValue != value) {
+            double oldValue = mValue;
             mValue = value;
-            fireValueChangedEvent(value);
+            fireValueChangedEvent(oldValue, value);
         }
     }
 

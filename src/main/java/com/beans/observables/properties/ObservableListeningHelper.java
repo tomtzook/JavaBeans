@@ -9,23 +9,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /*package*/ class ObservableListeningHelper<T> {
 
-    public static <T> ObservableListeningHelper<T> createSimple(ObservableValue<T> observable, T currentValue) {
-        return new ObservableListeningHelper<T>(observable, currentValue, new ArrayList<ChangeListener<? super T>>(2));
+    public static <T> ObservableListeningHelper<T> createSimple(ObservableValue<T> observable) {
+        return new ObservableListeningHelper<T>(observable, new ArrayList<ChangeListener<? super T>>(2));
     }
 
-    public static <T> ObservableListeningHelper<T> createSynchronized(ObservableValue<T> observable, T currentValue) {
-        return new ObservableListeningHelper<T>(observable, currentValue, new CopyOnWriteArrayList<ChangeListener<? super T>>());
+    public static <T> ObservableListeningHelper<T> createSynchronized(ObservableValue<T> observable) {
+        return new ObservableListeningHelper<T>(observable, new CopyOnWriteArrayList<ChangeListener<? super T>>());
     }
 
     private final ObservableValue<T> mObservable;
     private final List<ChangeListener<? super T>> mChangeListeners;
-    private T mCurrentValue;
 
-    ObservableListeningHelper(ObservableValue<T> observable, T initialValue, List<ChangeListener<? super T>> changeListeners){
+    ObservableListeningHelper(ObservableValue<T> observable, List<ChangeListener<? super T>> changeListeners){
         mObservable = observable;
 
         mChangeListeners = changeListeners;
-        mCurrentValue = initialValue;
     }
 
     public void addListener(ChangeListener<? super T> listener) {
@@ -36,10 +34,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
         mChangeListeners.remove(listener);
     }
 
-    public void fireValueChangedEvent(final T newValue) {
+    public void fireValueChangedEvent(final T oldValue, final T newValue) {
         final List<ChangeListener<? super T>> listeners = new ArrayList<ChangeListener<? super T>>(mChangeListeners);
-        final T oldValue = mCurrentValue;
-        mCurrentValue = newValue;
 
         invokeListeners(listeners, oldValue, newValue);
     }

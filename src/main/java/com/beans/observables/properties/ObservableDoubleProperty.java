@@ -20,8 +20,8 @@ import com.beans.DoubleProperty;
  */
 public abstract class ObservableDoubleProperty extends ObservablePropertyBase<Double> implements DoubleProperty {
     
-    public ObservableDoubleProperty(double initialValue, boolean threadSafe) {
-        super(initialValue, threadSafe);
+    public ObservableDoubleProperty(boolean threadSafe) {
+        super(threadSafe);
     }
 
     /**

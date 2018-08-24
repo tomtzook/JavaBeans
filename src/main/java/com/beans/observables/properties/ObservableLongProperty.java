@@ -20,8 +20,8 @@ import com.beans.LongProperty;
  */
 public abstract class ObservableLongProperty extends ObservablePropertyBase<Long> implements LongProperty {
 
-    protected ObservableLongProperty(long initialValue, boolean threadSafe) {
-        super(initialValue, threadSafe);
+    protected ObservableLongProperty(boolean threadSafe) {
+        super(threadSafe);
     }
 
     /**
