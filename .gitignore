@@ -1,3 +1,12 @@
+# Gradle
+/.gradle/
+
+# IDE files
+/.idea/
+/build/
+/bin/
+/out/
+
 # Compiled class file
 *.class
 
