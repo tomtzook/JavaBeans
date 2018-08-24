@@ -5,7 +5,7 @@ import java.util.function.LongSupplier;
 /**
  * <p>
  *     A <em>long</em> specialization of {@link Property}.
- *     Provides methods to access using primitive types: {@link #getAsLong()}, {@link #setAsLong(int)}.
+ *     Provides methods to access using primitive types: {@link #getAsLong()}, {@link #setAsLong(long)}.
  * </p>
  * <p>
  *     An extension of {@link LongSupplier}.

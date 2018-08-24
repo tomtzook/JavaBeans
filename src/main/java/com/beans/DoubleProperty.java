@@ -5,7 +5,7 @@ import java.util.function.DoubleSupplier;
 /**
  * <p>
  *     A <em>double</em> specialization of {@link Property}.
- *     Provides methods to access using primitive types: {@link #getAsDouble()}, {@link #setAsDouble(int)}.
+ *     Provides methods to access using primitive types: {@link #getAsDouble()}, {@link #setAsDouble(double)}.
  * </p>
  * <p>
  *     An extension of {@link DoubleSupplier}.

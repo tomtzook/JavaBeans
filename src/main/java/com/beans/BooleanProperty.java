@@ -5,7 +5,7 @@ import java.util.function.BooleanSupplier;
 /**
  * <p>
  *     A <em>boolean</em> specialization of {@link Property}.
- *     Provides methods to access using primitive types: {@link #getAsBoolean()}, {@link #setAsBoolean(int)}.
+ *     Provides methods to access using primitive types: {@link #getAsBoolean()}, {@link #setAsBoolean(boolean)}.
  * </p>
  * <p>
  *     An extension of {@link BooleanSupplier}.
