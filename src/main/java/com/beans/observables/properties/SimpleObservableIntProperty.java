@@ -6,6 +6,7 @@ public class SimpleObservableIntProperty extends ObservableIntProperty {
 
     public SimpleObservableIntProperty(int initialValue) {
         super(initialValue, false);
+        mValue = initialValue;
     }
 
     public SimpleObservableIntProperty() {

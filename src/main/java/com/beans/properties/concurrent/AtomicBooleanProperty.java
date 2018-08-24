@@ -1,14 +1,16 @@
-package com.beans.properties;
+package com.beans.properties.concurrent;
 
-public class VolatileBooleanProperty extends BooleanPropertyBase {
+import com.beans.properties.BooleanPropertyBase;
+
+public class AtomicBooleanProperty extends BooleanPropertyBase {
 
     private volatile boolean mValue;
 
-    public VolatileBooleanProperty(boolean value) {
+    public AtomicBooleanProperty(boolean value) {
         mValue = value;
     }
 
-    public VolatileBooleanProperty() {
+    public AtomicBooleanProperty() {
         this(false);
     }
 

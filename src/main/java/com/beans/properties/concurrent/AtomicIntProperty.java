@@ -1,14 +1,16 @@
-package com.beans.properties;
+package com.beans.properties.concurrent;
 
-public class VolatileIntProperty extends IntPropertyBase {
+import com.beans.properties.IntPropertyBase;
+
+public class AtomicIntProperty extends IntPropertyBase {
 
     private volatile int mValue;
 
-    public VolatileIntProperty(int value) {
+    public AtomicIntProperty(int value) {
         mValue = value;
     }
 
-    public VolatileIntProperty() {
+    public AtomicIntProperty() {
         this(0);
     }
 

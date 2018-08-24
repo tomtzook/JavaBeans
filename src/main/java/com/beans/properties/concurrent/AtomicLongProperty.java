@@ -1,14 +1,16 @@
-package com.beans.properties;
+package com.beans.properties.concurrent;
 
-public class VolatileLongProperty extends LongPropertyBase {
+import com.beans.properties.LongPropertyBase;
+
+public class AtomicLongProperty extends LongPropertyBase {
 
     private volatile long mValue;
 
-    public VolatileLongProperty(long value) {
+    public AtomicLongProperty(long value) {
         mValue = value;
     }
 
-    public VolatileLongProperty() {
+    public AtomicLongProperty() {
         this(0);
     }
 

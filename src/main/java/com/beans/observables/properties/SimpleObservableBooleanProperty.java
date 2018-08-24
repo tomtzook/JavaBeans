@@ -6,6 +6,7 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
 
     public SimpleObservableBooleanProperty(boolean initialValue) {
         super(initialValue, false);
+        mValue = initialValue;
     }
 
     public SimpleObservableBooleanProperty() {

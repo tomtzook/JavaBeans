@@ -7,21 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class ObservableListeningHelper<T> {
+public class ObservableListeningHelper<T> {
 
     public static <T> ObservableListeningHelper<T> createSimple(ObservableValue<T> observable, T currentValue) {
-        return new Simple<T>(observable, currentValue);
+        return new ObservableListeningHelper<T>(observable, currentValue, new ArrayList<ChangeListener<? super T>>(2));
     }
 
     public static <T> ObservableListeningHelper<T> createSynchronized(ObservableValue<T> observable, T currentValue) {
-        return new Synchronized<T>(observable, currentValue);
+        return new ObservableListeningHelper<T>(observable, currentValue, new CopyOnWriteArrayList<ChangeListener<? super T>>());
     }
 
-    protected final ObservableValue<T> mObservable;
-    protected final List<ChangeListener<? super T>> mChangeListeners;
-    protected T mCurrentValue;
+    private final ObservableValue<T> mObservable;
+    private final List<ChangeListener<? super T>> mChangeListeners;
+    private T mCurrentValue;
 
-    protected ObservableListeningHelper(ObservableValue<T> observable, T initialValue, List<ChangeListener<? super T>> changeListeners){
+    ObservableListeningHelper(ObservableValue<T> observable, T initialValue, List<ChangeListener<? super T>> changeListeners){
         mObservable = observable;
 
         mChangeListeners = changeListeners;
@@ -36,7 +36,15 @@ public abstract class ObservableListeningHelper<T> {
         mChangeListeners.remove(listener);
     }
 
-    protected void invokeListeners(List<ChangeListener<? super T>> listeners, T oldValue, T newValue) {
+    public void fireValueChangedEvent(final T newValue) {
+        final List<ChangeListener<? super T>> listeners = new ArrayList<ChangeListener<? super T>>(mChangeListeners);
+        final T oldValue = mCurrentValue;
+        mCurrentValue = newValue;
+
+        invokeListeners(listeners, oldValue, newValue);
+    }
+
+    void invokeListeners(List<ChangeListener<? super T>> listeners, T oldValue, T newValue) {
         if (listeners.size() > 0 &&
                 (newValue == null ? (oldValue != null) : !newValue.equals(oldValue))) {
             for (ChangeListener<? super T> changeListener : listeners) {
@@ -46,41 +54,6 @@ public abstract class ObservableListeningHelper<T> {
                     Thread.currentThread().getUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), t);
                 }
             }
-        }
-    }
-
-    public abstract void fireValueChangedEvent(T newValue);
-
-
-    private static class Simple<T> extends ObservableListeningHelper<T> {
-
-        Simple(ObservableValue<T> observable, T initialValue) {
-            super(observable, initialValue, new ArrayList<ChangeListener<? super T>>(2));
-        }
-
-        @Override
-        public void fireValueChangedEvent(T newValue) {
-            final List<ChangeListener<? super T>> listeners = new ArrayList<ChangeListener<? super T>>(mChangeListeners);
-            final T oldValue = mCurrentValue;
-            mCurrentValue = newValue;
-
-            invokeListeners(listeners, oldValue, newValue);
-        }
-    }
-
-    private static class Synchronized<T> extends ObservableListeningHelper<T> {
-
-        Synchronized(ObservableValue<T> observable, T initialValue) {
-            super(observable, initialValue, new CopyOnWriteArrayList<ChangeListener<? super T>>());
-        }
-
-        @Override
-        public synchronized void fireValueChangedEvent(final T newValue) {
-            final List<ChangeListener<? super T>> listeners = new ArrayList<ChangeListener<? super T>>(mChangeListeners);
-            final T oldValue = mCurrentValue;
-            mCurrentValue = newValue;
-
-            invokeListeners(listeners, oldValue, newValue);
         }
     }
 }

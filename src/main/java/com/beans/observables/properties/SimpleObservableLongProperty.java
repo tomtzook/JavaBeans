@@ -6,6 +6,7 @@ public class SimpleObservableLongProperty extends ObservableLongProperty {
 
     public SimpleObservableLongProperty(long initialValue) {
         super(initialValue, false);
+        mValue = initialValue;
     }
 
     public SimpleObservableLongProperty() {

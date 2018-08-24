@@ -1,14 +1,16 @@
-package com.beans.properties;
+package com.beans.properties.concurrent;
 
-public class VolatileDoubleProperty extends DoublePropertyBase {
+import com.beans.properties.DoublePropertyBase;
+
+public class AtomicDoubleProperty extends DoublePropertyBase {
 
     private volatile double mValue;
 
-    public VolatileDoubleProperty(double value) {
+    public AtomicDoubleProperty(double value) {
         mValue = value;
     }
 
-    public VolatileDoubleProperty() {
+    public AtomicDoubleProperty() {
         this(0.0);
     }
 

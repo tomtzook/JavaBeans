@@ -6,6 +6,7 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
 
     public SimpleObservableDoubleProperty(double initialValue) {
         super(initialValue, false);
+        mValue = initialValue;
     }
 
     public SimpleObservableDoubleProperty() {
