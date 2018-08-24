@@ -16,11 +16,17 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
 }
 
-task sources(type: Jar, dependsOn: 'classes') {
+task createSources(type: Jar, dependsOn: 'classes') {
     from sourceSets.main.allSource
     classifier = 'sources'
 }
 
+task createJavadoc(type: Jar, dependsOn: 'javadoc') {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+
 artifacts {
-    archives sources
+    archives createSources
+    archives createJavadoc
 }
