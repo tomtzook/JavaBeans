@@ -2,6 +2,15 @@ package com.beans.properties;
 
 import com.beans.LongProperty;
 
+/**
+ * <p>
+ *     Base for {@link LongProperty} implementations. Implements
+ *     {@link #set(Long)} and {@link #get()} as proxy calls to {@link #setAsLong(long)}
+ *     and {@link #getAsLong()} respectively.
+ * </p>
+ *
+ * @since JavaBeans 1.0
+ */
 public abstract class LongPropertyBase implements LongProperty {
 
     @Override

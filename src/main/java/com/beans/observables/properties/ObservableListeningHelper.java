@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ObservableListeningHelper<T> {
+/*package*/ class ObservableListeningHelper<T> {
 
     public static <T> ObservableListeningHelper<T> createSimple(ObservableValue<T> observable, T currentValue) {
         return new ObservableListeningHelper<T>(observable, currentValue, new ArrayList<ChangeListener<? super T>>(2));

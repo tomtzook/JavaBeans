@@ -2,6 +2,15 @@ package com.beans.properties;
 
 import com.beans.BooleanProperty;
 
+/**
+ * <p>
+ *     Base for {@link BooleanProperty} implementations. Implements
+ *     {@link #set(Boolean)} and {@link #get()} as proxy calls to {@link #setAsBoolean(boolean)}
+ *     and {@link #getAsBoolean()} respectively.
+ * </p>
+ *
+ * @since JavaBeans 1.0
+ */
 public abstract class BooleanPropertyBase implements BooleanProperty {
 
     @Override
