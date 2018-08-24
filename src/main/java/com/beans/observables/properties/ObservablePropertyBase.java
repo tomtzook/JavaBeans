@@ -11,7 +11,8 @@ import com.beans.observables.listeners.ChangeListener;
  *     Provides {@link #fireValueChangedEvent(Object)} for extending classes to fire changed event.
  * </p>
  * <p>
- *     This class can be <b>thread-safe</b> by defining so in the constructor. <br/>
+ *     This class can be <b>thread-safe</b> by defining so in the constructor.
+ *
  *     The thread safety manifest in the manner of accessing the list of added
  *     listener, making {@link #addChangeListener(ChangeListener)} and {@link #removeChangeListener(ChangeListener)}
  *     <b>thread-safe</b>. But, although {@link #fireValueChangedEvent(Object)} is safe
@@ -54,7 +55,7 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
 
     /**
      * Invokes all added listeners, notifying them that the value has changed.
-     * @param newValue
+     * @param newValue the new value of the property
      */
     protected final void fireValueChangedEvent(T newValue) {
         mObservableListeningHelper.fireValueChangedEvent(newValue);
