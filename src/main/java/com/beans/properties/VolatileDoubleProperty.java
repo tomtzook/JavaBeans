@@ -2,15 +2,15 @@ package com.beans.properties;
 
 import com.beans.DoubleProperty;
 
-public class SimpleDoubleProperty implements DoubleProperty {
-    
-    private double mValue;
+public class VolatileDoubleProperty implements DoubleProperty {
 
-    public SimpleDoubleProperty(double value) {
+    private volatile double mValue;
+
+    public VolatileDoubleProperty(double value) {
         mValue = value;
     }
 
-    public SimpleDoubleProperty() {
+    public VolatileDoubleProperty() {
         this(0.0);
     }
 

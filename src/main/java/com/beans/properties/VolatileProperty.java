@@ -2,15 +2,15 @@ package com.beans.properties;
 
 import com.beans.Property;
 
-public class SimpleProperty<T> implements Property<T> {
+public class VolatileProperty<T> implements Property<T> {
 
-    private T mValue;
+    private volatile T mValue;
 
-    public SimpleProperty(T initialValue) {
+    public VolatileProperty(T initialValue) {
         mValue = initialValue;
     }
 
-    public SimpleProperty() {
+    public VolatileProperty() {
         this(null);
     }
 
