@@ -10,7 +10,7 @@ import com.beans.properties.PropertyBase;
  * </p>
  * <p>
  *     This implementation relays on the fact that the Java Language Specifications guarantee that an access (read/write)
- *     to a <em>volatile</em> is atomic, and will be visible to all threads.
+ *     to a <em>volatile</em> field is atomic, and will be visible to all threads.
  * </p>
  *
  * @param <T> type of the property data.
