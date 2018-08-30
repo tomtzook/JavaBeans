@@ -1,12 +1,12 @@
-package com.beans.observables.properties.concurrent;
+package com.beans.observables.properties.atomic;
 
-import com.beans.observables.properties.ObservableDoubleProperty;
+import com.beans.observables.properties.ObservableBooleanProperty;
 
 /**
  * <p>
- *     A <b>thread-safe</b> implementation of {@link ObservableDoubleProperty}, holding a
- *     variable which is accessed for writing or reading through {@link #setAsDouble(double)}
- *     and {@link #getAsDouble()}.
+ *     A <b>thread-safe</b> implementation of {@link ObservableBooleanProperty}, holding a
+ *     variable which is accessed for writing or reading through {@link #setAsBoolean(boolean)}
+ *     and {@link #getAsBoolean()}.
  * </p>
  * <p>
  *     This implementation relays on the fact that the Java Language Specifications guarantee that an access (read/write)
@@ -21,27 +21,27 @@ import com.beans.observables.properties.ObservableDoubleProperty;
  *
  * @since JavaBeans 1.0
  */
-public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
+public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
 
-    private volatile double mValue;
+    private volatile boolean mValue;
 
-    public AtomicObservableDoubleProperty(double initialValue) {
+    public AtomicObservableBooleanProperty(boolean initialValue) {
         super(true);
         mValue = initialValue;
     }
 
     /**
-     * Initializes the property with a value of <em>0</em>.
+     * Initializes the property with a value of <em>false</em>.
      */
-    public AtomicObservableDoubleProperty() {
-        this(0.0);
+    public AtomicObservableBooleanProperty() {
+        this(false);
     }
 
     @Override
-    public void setAsDouble(double value) {
+    public void setAsBoolean(boolean value) {
         synchronized (this) {
             if (mValue != value) {
-                double oldValue = mValue;
+                boolean oldValue = mValue;
                 mValue = value;
                 fireValueChangedEvent(oldValue, value);
             }
@@ -49,7 +49,7 @@ public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
     }
 
     @Override
-    public double getAsDouble() {
+    public boolean getAsBoolean() {
         return mValue;
     }
 }

@@ -1,12 +1,12 @@
-package com.beans.observables.properties.concurrent;
+package com.beans.observables.properties.atomic;
 
-import com.beans.observables.properties.ObservableIntProperty;
+import com.beans.observables.properties.ObservablePropertyBase;
 
 /**
  * <p>
- *     A <b>thread-safe</b> implementation of {@link ObservableIntProperty}, holding a
- *     variable which is accessed for writing or reading through {@link #setAsInt(int)}
- *     and {@link #getAsInt()}.
+ *     A <b>thread-safe</b> implementation of {@link com.beans.observables.properties.ObservableProperty}, holding a
+ *     variable which is accessed for writing or reading through {@link #set(Object)}
+ *     and {@link #get()}.
  * </p>
  * <p>
  *     This implementation relays on the fact that the Java Language Specifications guarantee that an access (read/write)
@@ -19,29 +19,31 @@ import com.beans.observables.properties.ObservableIntProperty;
  *     of the updated value.
  * </p>
  *
+ * @param <T> type of the property data.
+ *
  * @since JavaBeans 1.0
  */
-public class AtomicObservableIntProperty extends ObservableIntProperty {
+public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
 
-    private volatile int mValue;
+    private volatile T mValue;
 
-    public AtomicObservableIntProperty(int initialValue) {
+    public AtomicObservableProperty(T initialValue) {
         super(true);
         mValue = initialValue;
     }
 
     /**
-     * Initializes the property with a value of <em>0</em>.
+     * Initializes the property with a value of <em>null</em>.
      */
-    public AtomicObservableIntProperty() {
-        this(0);
+    public AtomicObservableProperty() {
+        this(null);
     }
 
     @Override
-    public void setAsInt(int value) {
+    public void set(T value) {
         synchronized (this) {
             if (mValue != value) {
-                int oldValue = mValue;
+                T oldValue = mValue;
                 mValue = value;
                 fireValueChangedEvent(oldValue, value);
             }
@@ -49,7 +51,7 @@ public class AtomicObservableIntProperty extends ObservableIntProperty {
     }
 
     @Override
-    public int getAsInt() {
+    public T get() {
         return mValue;
     }
 }

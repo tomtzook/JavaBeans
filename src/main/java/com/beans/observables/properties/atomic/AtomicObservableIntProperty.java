@@ -1,12 +1,12 @@
-package com.beans.observables.properties.concurrent;
+package com.beans.observables.properties.atomic;
 
-import com.beans.observables.properties.ObservableBooleanProperty;
+import com.beans.observables.properties.ObservableIntProperty;
 
 /**
  * <p>
- *     A <b>thread-safe</b> implementation of {@link ObservableBooleanProperty}, holding a
- *     variable which is accessed for writing or reading through {@link #setAsBoolean(boolean)}
- *     and {@link #getAsBoolean()}.
+ *     A <b>thread-safe</b> implementation of {@link ObservableIntProperty}, holding a
+ *     variable which is accessed for writing or reading through {@link #setAsInt(int)}
+ *     and {@link #getAsInt()}.
  * </p>
  * <p>
  *     This implementation relays on the fact that the Java Language Specifications guarantee that an access (read/write)
@@ -21,27 +21,27 @@ import com.beans.observables.properties.ObservableBooleanProperty;
  *
  * @since JavaBeans 1.0
  */
-public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
+public class AtomicObservableIntProperty extends ObservableIntProperty {
 
-    private volatile boolean mValue;
+    private volatile int mValue;
 
-    public AtomicObservableBooleanProperty(boolean initialValue) {
+    public AtomicObservableIntProperty(int initialValue) {
         super(true);
         mValue = initialValue;
     }
 
     /**
-     * Initializes the property with a value of <em>false</em>.
+     * Initializes the property with a value of <em>0</em>.
      */
-    public AtomicObservableBooleanProperty() {
-        this(false);
+    public AtomicObservableIntProperty() {
+        this(0);
     }
 
     @Override
-    public void setAsBoolean(boolean value) {
+    public void setAsInt(int value) {
         synchronized (this) {
             if (mValue != value) {
-                boolean oldValue = mValue;
+                int oldValue = mValue;
                 mValue = value;
                 fireValueChangedEvent(oldValue, value);
             }
@@ -49,7 +49,7 @@ public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
     }
 
     @Override
-    public boolean getAsBoolean() {
+    public int getAsInt() {
         return mValue;
     }
 }

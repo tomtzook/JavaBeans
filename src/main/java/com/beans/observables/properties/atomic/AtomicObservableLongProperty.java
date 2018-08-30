@@ -1,4 +1,4 @@
-package com.beans.observables.properties.concurrent;
+package com.beans.observables.properties.atomic;
 
 import com.beans.observables.properties.ObservableLongProperty;
 
