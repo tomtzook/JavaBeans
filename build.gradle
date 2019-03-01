@@ -1,8 +1,9 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
-group 'JavaBeans'
+group 'com.tomtzook'
 version '1.0'
 
 sourceCompatibility = 1.8
@@ -26,7 +27,13 @@ task createJavadoc(type: Jar, dependsOn: 'javadoc') {
     classifier = 'javadoc'
 }
 
-artifacts {
-    archives createSources
-    archives createJavadoc
+publishing {
+    publications {
+        mavenJavabeans(MavenPublication) {
+            from components.java
+
+            artifact createJavadoc
+            artifact createSources
+        }
+    }
 }
