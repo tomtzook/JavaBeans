@@ -3,8 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
-group 'com.tomtzook'
-version '1.0'
+group GROUP
+version VERSION
 
 sourceCompatibility = 1.8
 
