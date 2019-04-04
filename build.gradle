@@ -1,10 +1,15 @@
 plugins {
     id 'java'
     id 'maven-publish'
+    id 'signing'
 }
 
 group = GROUP
 version = VERSION
+
+def isReleaseBuild() {
+    return version.contains("SNAPSHOT") == false
+}
 
 sourceCompatibility = 1.8
 
@@ -29,11 +34,59 @@ task createJavadoc(type: Jar, dependsOn: 'javadoc') {
 
 publishing {
     publications {
-        mavenJavabeans(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
 
             artifact createJavadoc
             artifact createSources
+
+            pom {
+                name = 'jmath'
+                description = 'Beans for Java'
+                url = 'https://github.com/tomtzook/JavaBeans'
+
+                licenses {
+                    license {
+                        name = 'Apache License 2.0'
+                        url = ' http://www.apache.org/licenses/LICENSE-2.0'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'tomtzook'
+                        name = 'Tom Tzook'
+                        email = 'tomtzook@gmail.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/tomtzook/JavaBeans.git'
+                    developerConnection = 'scm:git:ssh://github.com/tomtzook/JavaBeans.git'
+                    url = 'https://github.com/tomtzook/JavaBeans'
+                }
+            }
         }
     }
+
+    repositories {
+        maven {
+            if (isReleaseBuild()) {
+                name = 'NexusStaging'
+                url = NEXUS_RELEASE_REPOSITORY_URL
+            } else {
+                name = 'NexusSnapshot'
+                url = NEXUS_SNAPSHOT_REPOSITORY_URL
+            }
+
+            credentials {
+                username ''
+                password ''
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
