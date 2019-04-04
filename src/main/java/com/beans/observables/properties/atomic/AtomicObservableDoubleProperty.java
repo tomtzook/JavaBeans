@@ -1,12 +1,12 @@
-package com.beans.observables.properties.concurrent;
+package com.beans.observables.properties.atomic;
 
-import com.beans.observables.properties.ObservablePropertyBase;
+import com.beans.observables.properties.ObservableDoubleProperty;
 
 /**
  * <p>
- *     A <b>thread-safe</b> implementation of {@link com.beans.observables.properties.ObservableProperty}, holding a
- *     variable which is accessed for writing or reading through {@link #set(Object)}
- *     and {@link #get()}.
+ *     A <b>thread-safe</b> implementation of {@link ObservableDoubleProperty}, holding a
+ *     variable which is accessed for writing or reading through {@link #setAsDouble(double)}
+ *     and {@link #getAsDouble()}.
  * </p>
  * <p>
  *     This implementation relays on the fact that the Java Language Specifications guarantee that an access (read/write)
@@ -19,31 +19,29 @@ import com.beans.observables.properties.ObservablePropertyBase;
  *     of the updated value.
  * </p>
  *
- * @param <T> type of the property data.
- *
  * @since JavaBeans 1.0
  */
-public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
+public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
 
-    private volatile T mValue;
+    private volatile double mValue;
 
-    public AtomicObservableProperty(T initialValue) {
+    public AtomicObservableDoubleProperty(double initialValue) {
         super(true);
         mValue = initialValue;
     }
 
     /**
-     * Initializes the property with a value of <em>null</em>.
+     * Initializes the property with a value of <em>0</em>.
      */
-    public AtomicObservableProperty() {
-        this(null);
+    public AtomicObservableDoubleProperty() {
+        this(0.0);
     }
 
     @Override
-    public void set(T value) {
+    public void setAsDouble(double value) {
         synchronized (this) {
             if (mValue != value) {
-                T oldValue = mValue;
+                double oldValue = mValue;
                 mValue = value;
                 fireValueChangedEvent(oldValue, value);
             }
@@ -51,7 +49,7 @@ public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
     }
 
     @Override
-    public T get() {
+    public double getAsDouble() {
         return mValue;
     }
 }

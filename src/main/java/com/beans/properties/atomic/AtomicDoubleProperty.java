@@ -1,4 +1,4 @@
-package com.beans.properties.concurrent;
+package com.beans.properties.atomic;
 
 import com.beans.properties.DoublePropertyBase;
 
