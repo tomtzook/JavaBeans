@@ -1,0 +1,14 @@
+ext {
+    isReleaseBuild = {
+        return !version.contains("SNAPSHOT")
+    }
+    shouldSign = {
+        return project.hasProperty('SIGN_PUBLISH')
+    }
+    getNexusUsername = {
+        return rootProject.hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : System.getenv('NEXUS_USERNAME')
+    }
+    getNexusPassword = {
+        return rootProject.hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : System.getenv('NEXUS_PASSWORD')
+    }
+}

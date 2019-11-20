@@ -4,14 +4,12 @@ plugins {
     id 'signing'
 }
 
+apply from: rootProject.file('extras.gradle')
+
 group = GROUP
 version = VERSION
 
-def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
-}
-
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -22,23 +20,30 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
 }
 
-task createSources(type: Jar, dependsOn: 'classes') {
+jar {
+    archiveBaseName.set(project.name)
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('sources')
+
     from sourceSets.main.allSource
-    classifier = 'sources'
 }
 
-task createJavadoc(type: Jar, dependsOn: 'javadoc') {
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('javadoc')
+
     from javadoc.destinationDir
-    classifier = 'javadoc'
 }
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
 
-            artifact createJavadoc
-            artifact createSources
+            artifact sourcesJar
+            artifact javadocJar
 
             pom {
                 name = 'jmath'
@@ -80,13 +85,16 @@ publishing {
             }
 
             credentials {
-                username ''
-                password ''
+                username getNexusUsername()
+                password getNexusPassword()
             }
         }
     }
 }
 
-signing {
-    sign publishing.publications.mavenJava
+if (shouldSign()) {
+    signing {
+        sign publishing.publications.mavenJava
+    }
 }
+
