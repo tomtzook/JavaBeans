@@ -26,6 +26,10 @@ public class Suppliers {
         return ()->value;
     }
 
+    public static BooleanSupplier not(BooleanSupplier supplier) {
+        return ()->!supplier.getAsBoolean();
+    }
+
     public static LongSupplier of(long value) {
         return ()->value;
     }
