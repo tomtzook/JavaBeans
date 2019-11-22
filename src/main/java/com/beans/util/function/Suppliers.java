@@ -4,10 +4,15 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
+import java.util.function.Supplier;
 
 public class Suppliers {
 
     private Suppliers() {}
+
+    public static <T> Supplier<T> of(T value) {
+        return ()->value;
+    }
 
     public static IntSupplier of(int value) {
         return ()->value;
