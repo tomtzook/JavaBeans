@@ -2,6 +2,8 @@ package com.beans.observables.properties;
 
 import com.beans.LongProperty;
 
+import java.util.Objects;
+
 /**
  * <p>
  *     A <em>long</em> specialization of {@link ObservableProperty}.
@@ -36,12 +38,7 @@ public abstract class ObservableLongProperty extends ObservablePropertyBase<Long
 
     @Override
     public void set(Long value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsLong(0);
-        } else {
-            setAsLong(value);
-        }
+        setAsLong(Objects.requireNonNull(value, "value is null"));
     }
 
     @Override

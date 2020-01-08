@@ -2,6 +2,8 @@ package com.beans.properties;
 
 import com.beans.BooleanProperty;
 
+import java.util.Objects;
+
 /**
  * <p>
  *     Base for {@link BooleanProperty} implementations. Implements
@@ -15,12 +17,7 @@ public abstract class BooleanPropertyBase implements BooleanProperty {
 
     @Override
     public void set(Boolean value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsBoolean(false);
-        } else {
-            setAsBoolean(value);
-        }
+        setAsBoolean(Objects.requireNonNull(value, "null value"));
     }
 
     @Override

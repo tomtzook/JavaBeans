@@ -2,6 +2,8 @@ package com.beans.observables.properties;
 
 import com.beans.IntProperty;
 
+import java.util.Objects;
+
 /**
  * <p>
  *     A <em>int</em> specialization of {@link ObservableProperty}.
@@ -36,12 +38,7 @@ public abstract class ObservableIntProperty extends ObservablePropertyBase<Integ
 
     @Override
     public void set(Integer value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsInt(0);
-        } else {
-            setAsInt(value);
-        }
+        setAsInt(Objects.requireNonNull(value, "value is null"));
     }
 
     @Override

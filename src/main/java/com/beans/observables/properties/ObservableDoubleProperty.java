@@ -2,6 +2,8 @@ package com.beans.observables.properties;
 
 import com.beans.DoubleProperty;
 
+import java.util.Objects;
+
 /**
  * <p>
  *     A <em>double</em> specialization of {@link ObservableProperty}.
@@ -36,12 +38,7 @@ public abstract class ObservableDoubleProperty extends ObservablePropertyBase<Do
 
     @Override
     public void set(Double value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsDouble(0.0);
-        } else {
-            setAsDouble(value);
-        }
+        setAsDouble(Objects.requireNonNull(value, "null value"));
     }
 
     @Override

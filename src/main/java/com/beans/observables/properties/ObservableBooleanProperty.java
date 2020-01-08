@@ -2,6 +2,8 @@ package com.beans.observables.properties;
 
 import com.beans.BooleanProperty;
 
+import java.util.Objects;
+
 /**
  * <p>
  *     A <em>boolean</em> specialization of {@link ObservableProperty}.
@@ -36,12 +38,7 @@ public abstract class ObservableBooleanProperty extends ObservablePropertyBase<B
 
     @Override
     public void set(Boolean value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsBoolean(false);
-        } else {
-            setAsBoolean(value);
-        }
+        setAsBoolean(Objects.requireNonNull(value, "null value"));
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.beans.properties;
 
 import com.beans.DoubleProperty;
 
+import java.util.Objects;
+
 /**
  * <p>
  *     Base for {@link DoubleProperty} implementations. Implements
@@ -15,12 +17,7 @@ public abstract class DoublePropertyBase implements DoubleProperty {
 
     @Override
     public void set(Double value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsDouble(0.0);
-        } else {
-            setAsDouble(value);
-        }
+        setAsDouble(Objects.requireNonNull(value, "null value"));
     }
 
     @Override
