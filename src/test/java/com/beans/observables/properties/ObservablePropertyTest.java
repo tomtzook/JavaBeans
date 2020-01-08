@@ -1,7 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.observables.listeners.ChangeListener;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
