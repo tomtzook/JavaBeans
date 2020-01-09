@@ -1,6 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.IntProperty;
+import com.beans.observables.listeners.ObservableEventController;
 
 import java.util.Objects;
 
@@ -22,8 +23,8 @@ import java.util.Objects;
  */
 public abstract class ObservableIntProperty extends ObservablePropertyBase<Integer> implements IntProperty {
 
-    protected ObservableIntProperty(boolean threadSafe) {
-        super(threadSafe);
+    protected ObservableIntProperty(ObservableEventController<Integer> eventController) {
+        super(eventController);
     }
 
     /**

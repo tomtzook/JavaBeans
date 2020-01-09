@@ -1,6 +1,9 @@
 package com.beans.observables.properties.atomic;
 
+import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableDoubleProperty;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * <p>
@@ -9,47 +12,44 @@ import com.beans.observables.properties.ObservableDoubleProperty;
  *     and {@link #getAsDouble()}.
  * </p>
  * <p>
- *     This implementation relays on the fact that the Java Language Specifications guarantee that an access (read/write)
- *     to a <em>volatile</em> field is atomic, and will be visible to all threads. Using this, reading
- *     is guaranteed as atomic.
+ *     This implementation uses the <em>java.util.concurrent.atomic</em> package, to provide
+ *     a lock-free, atomic read and write operations.
  * </p>
  * <p>
- *     Writing to this property holds a lock, preventing additional write. Invocation
- *     of added listener is done within the lock. This locking doesn't prevent reading
- *     of the updated value.
+ *     In some cases, {@link AtomicLong} may old a lock, specifically, if the operating
+ *     system does not support 64-bit operations.
  * </p>
  *
  * @since JavaBeans 1.0
  */
 public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
 
-    private volatile double mValue;
+    private final AtomicLong mValue;
 
-    public AtomicObservableDoubleProperty(double initialValue) {
-        super(true);
-        mValue = initialValue;
+    public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController, double initialValue) {
+        super(eventController);
+        mValue = new AtomicLong(Double.doubleToLongBits(initialValue));
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public AtomicObservableDoubleProperty() {
-        this(0.0);
+    public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController) {
+        this(eventController, 0.0);
     }
 
     @Override
     public void setAsDouble(double value) {
-        synchronized (this) {
-            if (mValue != value) {
-                double oldValue = mValue;
-                mValue = value;
-                fireValueChangedEvent(oldValue, value);
-            }
+        long newLongValue = Double.doubleToLongBits(value);
+        long oldLongValue = mValue.getAndSet(newLongValue);
+        if (oldLongValue != newLongValue) {
+            double oldValue = Double.longBitsToDouble(oldLongValue);
+            fireValueChangedEvent(oldValue, value);
         }
     }
 
     @Override
     public double getAsDouble() {
-        return mValue;
+        return Double.longBitsToDouble(mValue.get());
     }
 }

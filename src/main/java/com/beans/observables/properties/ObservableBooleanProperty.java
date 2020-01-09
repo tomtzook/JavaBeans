@@ -1,6 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.BooleanProperty;
+import com.beans.observables.listeners.ObservableEventController;
 
 import java.util.Objects;
 
@@ -22,8 +23,8 @@ import java.util.Objects;
  */
 public abstract class ObservableBooleanProperty extends ObservablePropertyBase<Boolean> implements BooleanProperty {
 
-    protected ObservableBooleanProperty(boolean threadSafe) {
-        super(threadSafe);
+    protected ObservableBooleanProperty(ObservableEventController<Boolean> eventController) {
+        super(eventController);
     }
 
     /**

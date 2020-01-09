@@ -1,5 +1,7 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.listeners.ObservableEventController;
+
 /**
  * <p>
  *     A simple implementation of {@link ObservableDoubleProperty}, holding a
@@ -13,16 +15,16 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
 
     private double mValue;
 
-    public SimpleObservableDoubleProperty(double initialValue) {
-        super(false);
+    public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController, double initialValue) {
+        super(eventController);
         mValue = initialValue;
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public SimpleObservableDoubleProperty() {
-        this(0.0);
+    public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController) {
+        this(eventController, 0.0);
     }
 
     @Override

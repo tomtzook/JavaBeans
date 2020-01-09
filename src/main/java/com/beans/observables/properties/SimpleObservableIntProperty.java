@@ -1,5 +1,7 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.listeners.ObservableEventController;
+
 /**
  * <p>
  *     A simple implementation of {@link ObservableIntProperty}, holding a
@@ -13,16 +15,16 @@ public class SimpleObservableIntProperty extends ObservableIntProperty {
 
     private int mValue;
 
-    public SimpleObservableIntProperty(int initialValue) {
-        super(false);
+    public SimpleObservableIntProperty(ObservableEventController<Integer> eventController, int initialValue) {
+        super(eventController);
         mValue = initialValue;
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public SimpleObservableIntProperty() {
-        this(0);
+    public SimpleObservableIntProperty(ObservableEventController<Integer> eventController) {
+        this(eventController, 0);
     }
 
     @Override

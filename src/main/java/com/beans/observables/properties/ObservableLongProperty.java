@@ -1,6 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.LongProperty;
+import com.beans.observables.listeners.ObservableEventController;
 
 import java.util.Objects;
 
@@ -22,8 +23,8 @@ import java.util.Objects;
  */
 public abstract class ObservableLongProperty extends ObservablePropertyBase<Long> implements LongProperty {
 
-    protected ObservableLongProperty(boolean threadSafe) {
-        super(threadSafe);
+    protected ObservableLongProperty(ObservableEventController<Long> eventController) {
+        super(eventController);
     }
 
     /**

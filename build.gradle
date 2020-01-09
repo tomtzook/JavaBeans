@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'com.github.tomtzook', name: 'notifier', version: '1.0.0'
+
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.2'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.4.2'
     testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.2.0'

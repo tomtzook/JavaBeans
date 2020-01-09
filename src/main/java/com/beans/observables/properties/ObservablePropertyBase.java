@@ -1,6 +1,8 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
+import com.beans.observables.listeners.ObservableEventController;
 
 /**
  * <p>
@@ -25,30 +27,20 @@ import com.beans.observables.listeners.ChangeListener;
  */
 public abstract class ObservablePropertyBase<T> implements ObservableProperty<T> {
 
-    private ObservableListeningHelper<T> mObservableListeningHelper;
+    private final ObservableEventController<T> mEventController;
 
-    /**
-     * Initializes the listeners handling.
-     *
-     * @param threadSafe true to use a thread-safe listener added. Only affects {@link #addChangeListener(ChangeListener)}
-     *                   {@link #removeChangeListener(ChangeListener)}, but should be used when this
-     *                   class is accessed concurrently. {@link #fireValueChangedEvent(Object, Object)}
-     *                   must be synchronized manually.
-     */
-    protected ObservablePropertyBase(boolean threadSafe) {
-        mObservableListeningHelper = threadSafe
-                ? ObservableListeningHelper.createSynchronized(this)
-                : ObservableListeningHelper.createSimple(this);
+    protected ObservablePropertyBase(ObservableEventController<T> eventController) {
+        mEventController = eventController;
     }
 
     @Override
     public final void addChangeListener(ChangeListener<? super T> changeListener) {
-        mObservableListeningHelper.addListener(changeListener);
+        mEventController.addListener(changeListener);
     }
 
     @Override
     public final void removeChangeListener(ChangeListener<? super T> changeListener) {
-        mObservableListeningHelper.removeListener(changeListener);
+        mEventController.removeListener(changeListener);
     }
 
     /**
@@ -58,7 +50,7 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
      * @param newValue the new value of the property.
      */
     protected final void fireValueChangedEvent(T oldValue, T newValue) {
-        mObservableListeningHelper.fireValueChangedEvent(oldValue, newValue);
+        mEventController.fire(new ChangeEvent<>(this, oldValue, newValue));
     }
 
     @Override

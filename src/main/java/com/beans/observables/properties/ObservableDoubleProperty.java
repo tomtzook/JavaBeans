@@ -1,6 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.DoubleProperty;
+import com.beans.observables.listeners.ObservableEventController;
 
 import java.util.Objects;
 
@@ -21,9 +22,9 @@ import java.util.Objects;
  * @since JavaBeans 1.0
  */
 public abstract class ObservableDoubleProperty extends ObservablePropertyBase<Double> implements DoubleProperty {
-    
-    public ObservableDoubleProperty(boolean threadSafe) {
-        super(threadSafe);
+
+    protected ObservableDoubleProperty(ObservableEventController<Double> eventController) {
+        super(eventController);
     }
 
     /**

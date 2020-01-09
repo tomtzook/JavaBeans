@@ -1,5 +1,7 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.listeners.ObservableEventController;
+
 import java.util.Objects;
 
 /**
@@ -17,16 +19,16 @@ public class SimpleObservableProperty<T> extends ObservablePropertyBase<T> {
 
     private T mValue;
 
-    public SimpleObservableProperty(T initialValue) {
-        super(false);
+    public SimpleObservableProperty(ObservableEventController<T> eventController, T initialValue) {
+        super(eventController);
         mValue = initialValue;
     }
 
     /**
      * Initializes the property with a value of <em>null</em>.
      */
-    public SimpleObservableProperty() {
-        this(null);
+    public SimpleObservableProperty(ObservableEventController<T> eventController) {
+        this(eventController,null);
     }
 
     @Override

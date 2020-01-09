@@ -1,6 +1,9 @@
 package com.beans.observables.properties.atomic;
 
+import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableLongProperty;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * <p>
@@ -9,47 +12,42 @@ import com.beans.observables.properties.ObservableLongProperty;
  *     and {@link #getAsLong()}.
  * </p>
  * <p>
- *     This implementation relays on the fact that the Java Language Specifications guarantee that an access (read/write)
- *     to a <em>volatile</em> field is atomic, and will be visible to all threads. Using this, reading
- *     is guaranteed as atomic.
+ *     This implementation uses the <em>java.util.concurrent.atomic</em> package, to provide
+ *     a lock-free, atomic read and write operations.
  * </p>
  * <p>
- *     Writing to this property holds a lock, preventing additional write. Invocation
- *     of added listener is done within the lock. This locking doesn't prevent reading
- *     of the updated value.
+ *     In some cases, {@link AtomicLong} may old a lock, specifically, if the operating
+ *     system does not support 64-bit operations.
  * </p>
  *
  * @since JavaBeans 1.0
  */
 public class AtomicObservableLongProperty extends ObservableLongProperty {
 
-    private volatile long mValue;
+    private final AtomicLong mValue;
 
-    public AtomicObservableLongProperty(long initialValue) {
-        super(true);
-        mValue = initialValue;
+    public AtomicObservableLongProperty(ObservableEventController<Long> eventController, long initialValue) {
+        super(eventController);
+        mValue = new AtomicLong(initialValue);
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public AtomicObservableLongProperty() {
-        this(0);
+    public AtomicObservableLongProperty(ObservableEventController<Long> eventController) {
+        this(eventController, 0);
     }
 
     @Override
     public void setAsLong(long value) {
-        synchronized (this) {
-            if (mValue != value) {
-                long oldValue = mValue;
-                mValue = value;
-                fireValueChangedEvent(oldValue, value);
-            }
+        long oldValue = mValue.getAndSet(value);
+        if (oldValue != value) {
+            fireValueChangedEvent(oldValue, value);
         }
     }
 
     @Override
     public long getAsLong() {
-        return mValue;
+        return mValue.get();
     }
 }

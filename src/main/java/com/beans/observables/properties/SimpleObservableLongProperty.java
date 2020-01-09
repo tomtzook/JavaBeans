@@ -1,5 +1,7 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.listeners.ObservableEventController;
+
 /**
  * <p>
  *     A simple implementation of {@link ObservableLongProperty}, holding a
@@ -13,16 +15,16 @@ public class SimpleObservableLongProperty extends ObservableLongProperty {
 
     private long mValue;
 
-    public SimpleObservableLongProperty(long initialValue) {
-        super(false);
+    public SimpleObservableLongProperty(ObservableEventController<Long> eventController, long initialValue) {
+        super(eventController);
         mValue = initialValue;
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public SimpleObservableLongProperty() {
-        this(0);
+    public SimpleObservableLongProperty(ObservableEventController<Long> eventController) {
+        this(eventController, 0);
     }
 
     @Override

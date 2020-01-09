@@ -1,6 +1,7 @@
 package com.beans.observables.listeners;
 
 import com.beans.observables.ObservableValue;
+import com.notifier.Listener;
 
 /**
  * <p>
@@ -11,15 +12,13 @@ import com.beans.observables.ObservableValue;
  *
  * @since JavaBeans 1.0
  */
-public interface ChangeListener<T> {
+public interface ChangeListener<T> extends Listener {
 
     /**
      * Called when an {@link ObservableValue}, this listener
      * was added to, was changed.
      *
-     * @param observable the observable that was changed.
-     * @param oldValue the old value.
-     * @param newValue the new value.
+     * @param event change event
      */
-    void changed(ObservableValue<? extends T> observable, T oldValue, T newValue);
+    void onChange(ChangeEvent<T> event);
 }

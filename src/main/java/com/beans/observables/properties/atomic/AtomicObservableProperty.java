@@ -1,6 +1,10 @@
 package com.beans.observables.properties.atomic;
 
+import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservablePropertyBase;
+
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <p>
@@ -9,14 +13,8 @@ import com.beans.observables.properties.ObservablePropertyBase;
  *     and {@link #get()}.
  * </p>
  * <p>
- *     This implementation relays on the fact that the Java Language Specifications guarantee that an access (read/write)
- *     to a <em>volatile</em> field is atomic, and will be visible to all threads. Using this, reading
- *     is guaranteed as atomic.
- * </p>
- * <p>
- *     Writing to this property holds a lock, preventing additional write. Invocation
- *     of added listener is done within the lock. This locking doesn't prevent reading
- *     of the updated value.
+ *     This implementation uses the <em>java.util.concurrent.atomic</em> package, to provide
+ *     a lock-free, atomic read and write operations.
  * </p>
  *
  * @param <T> type of the property data.
@@ -25,33 +23,30 @@ import com.beans.observables.properties.ObservablePropertyBase;
  */
 public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
 
-    private volatile T mValue;
+    private final AtomicReference<T> mValue;
 
-    public AtomicObservableProperty(T initialValue) {
-        super(true);
-        mValue = initialValue;
+    public AtomicObservableProperty(ObservableEventController<T> eventController, T initialValue) {
+        super(eventController);
+        mValue = new AtomicReference<>(initialValue);
     }
 
     /**
      * Initializes the property with a value of <em>null</em>.
      */
-    public AtomicObservableProperty() {
-        this(null);
+    public AtomicObservableProperty(ObservableEventController<T> eventController) {
+        this(eventController, null);
     }
 
     @Override
     public void set(T value) {
-        synchronized (this) {
-            if (mValue != value) {
-                T oldValue = mValue;
-                mValue = value;
-                fireValueChangedEvent(oldValue, value);
-            }
+        T oldValue = mValue.getAndSet(value);
+        if (!Objects.equals(oldValue, value)) {
+            fireValueChangedEvent(oldValue, value);
         }
     }
 
     @Override
     public T get() {
-        return mValue;
+        return mValue.get();
     }
 }
