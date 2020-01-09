@@ -1,5 +1,6 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 
 /**
@@ -15,20 +16,23 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
 
     private double mValue;
 
-    public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController, double initialValue) {
-        super(eventController);
+    public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController,
+                                          PropertyBindingController<Double> bindingController,
+                                          double initialValue) {
+        super(eventController, bindingController);
         mValue = initialValue;
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController) {
-        this(eventController, 0.0);
+    public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController,
+                                          PropertyBindingController<Double> bindingController) {
+        this(eventController, bindingController, 0.0);
     }
 
     @Override
-    public void setAsDouble(double value) {
+    public void setInternal(double value) {
         if (mValue != value) {
             double oldValue = mValue;
             mValue = value;
@@ -37,7 +41,7 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
     }
 
     @Override
-    public double getAsDouble() {
+    public double getInternal() {
         return mValue;
     }
 }

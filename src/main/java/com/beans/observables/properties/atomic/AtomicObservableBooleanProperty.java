@@ -1,5 +1,6 @@
 package com.beans.observables.properties.atomic;
 
+import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableBooleanProperty;
 
@@ -22,20 +23,23 @@ public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
 
     private final AtomicBoolean mValue;
 
-    public AtomicObservableBooleanProperty(ObservableEventController<Boolean> eventController, boolean initialValue) {
-        super(eventController);
+    public AtomicObservableBooleanProperty(ObservableEventController<Boolean> eventController,
+                                           PropertyBindingController<Boolean> bindingController,
+                                           boolean initialValue) {
+        super(eventController, bindingController);
         mValue = new AtomicBoolean(initialValue);
     }
 
     /**
      * Initializes the property with a value of <em>false</em>.
      */
-    public AtomicObservableBooleanProperty(ObservableEventController<Boolean> eventController) {
-        this(eventController, false);
+    public AtomicObservableBooleanProperty(ObservableEventController<Boolean> eventController,
+                                           PropertyBindingController<Boolean> bindingController) {
+        this(eventController, bindingController, false);
     }
 
     @Override
-    public void setAsBoolean(boolean value) {
+    public void setInternal(boolean value) {
         boolean oldValue = mValue.getAndSet(value);
         if (oldValue != value) {
             fireValueChangedEvent(oldValue, value);
@@ -43,7 +47,7 @@ public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
     }
 
     @Override
-    public boolean getAsBoolean() {
+    public boolean getInternal() {
         return mValue.get();
     }
 }

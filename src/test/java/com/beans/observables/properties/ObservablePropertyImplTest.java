@@ -1,5 +1,7 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.ObservableValue;
+import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
 import com.beans.observables.listeners.ObservableEventController;
@@ -25,16 +27,18 @@ import java.util.stream.Stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ObservablePropertyImplTest {
 
     @ParameterizedTest(name = "{0}.set({1})")
-    @MethodSource("newValueArguments")
+    @MethodSource("newValueWithListenerArguments")
     public void set_newValue_callsListener(ObservableProperty property, Object newValue, ChangeListener listener) throws Exception {
         property.set(newValue);
 
@@ -48,15 +52,33 @@ public class ObservablePropertyImplTest {
     }
 
     @ParameterizedTest(name = "{0}.set({1})")
-    @MethodSource("sameValueArguments")
-    public void set_sameValue_doesNotCallListener(ObservableProperty property, Object newValue, ChangeListener listener) throws Exception {
-        property.set(newValue);
+    @MethodSource("sameValueWithListenerArguments")
+    public void set_sameValue_doesNotCallListener(ObservableProperty property, Object value, ChangeListener listener) throws Exception {
+        property.set(value);
 
         verify(listener, never()).onChange(any(ChangeEvent.class));
     }
 
+    @ParameterizedTest(name = "{0}.bind(...).get()")
+    @MethodSource("sameValueWithObservable")
+    public void bindAndGet_withObservable_getsValueFromBound(ObservableProperty property, Object currentValue, Object value, ObservableValue observableValue) throws Exception {
+        property.bind(observableValue);
 
-    public static Stream<Arguments> newValueArguments() {
+        Object getValue = property.get();
+        assertThat(getValue, equalTo(value));
+        assertThat(getValue, not(equalTo(currentValue)));
+    }
+
+    @ParameterizedTest(name = "{0}.bind(...).set(...)")
+    @MethodSource("sameValueWithObservable")
+    public void bindAndSet_withObservable_throwsIllegalStateException(ObservableProperty property, Object currentValue, Object value, ObservableValue observableValue) throws Exception {
+        assertThrows(IllegalStateException.class, ()-> {
+            property.bind(observableValue);
+            property.set(value);
+        });
+    }
+
+    public static Stream<Arguments> newValueWithListenerArguments() {
         return implementations().stream()
                 .map((func) -> {
                     ChangeListener listener = mock(ChangeListener.class);
@@ -65,7 +87,7 @@ public class ObservablePropertyImplTest {
                 });
     }
 
-    public static Stream<Arguments> sameValueArguments() {
+    public static Stream<Arguments> sameValueWithListenerArguments() {
         return implementations().stream()
                 .map((func) -> {
                     ChangeListener listener = mock(ChangeListener.class);
@@ -74,19 +96,63 @@ public class ObservablePropertyImplTest {
                 });
     }
 
+    public static Stream<Arguments> sameValueWithObservable() {
+        return implementations().stream()
+                .map((func) -> {
+                    Impl impl = func.apply(mock(ChangeListener.class));
+
+                    Object someValue = valueForProperty(impl);
+                    ObservableValue value = mock(ObservableValue.class);
+                    when(value.get()).thenReturn(someValue);
+
+                    return Arguments.of(impl.mProperty, impl.mProperty.get(), someValue, value);
+                });
+    }
+
+    @SuppressWarnings("unchecked")
     private static List<Function<ChangeListener, Impl>> implementations() {
         EventController eventController = Controllers.newSyncExecutionController();
         return Arrays.asList(
-                (l)-> new Impl(new SimpleObservableProperty<>(new ObservableEventController.Impl<>(eventController, l)), Object.class),
-                (l)-> new Impl(new SimpleObservableBooleanProperty(new ObservableEventController.Impl<>(eventController, l)), Boolean.class),
-                (l)-> new Impl(new SimpleObservableDoubleProperty(new ObservableEventController.Impl<>(eventController, l)), Double.class),
-                (l)-> new Impl(new SimpleObservableIntProperty(new ObservableEventController.Impl<>(eventController, l)), Integer.class),
-                (l)-> new Impl(new SimpleObservableLongProperty(new ObservableEventController.Impl<>(eventController, l)), Long.class),
-                (l)-> new Impl(new AtomicObservableProperty(new ObservableEventController.Impl<>(eventController, l)), Object.class),
-                (l)-> new Impl(new AtomicObservableBooleanProperty(new ObservableEventController.Impl<>(eventController, l)), Boolean.class),
-                (l)-> new Impl(new AtomicObservableDoubleProperty(new ObservableEventController.Impl<>(eventController, l)), Double.class),
-                (l)-> new Impl(new AtomicObservableIntProperty(new ObservableEventController.Impl<>(eventController, l)), Integer.class),
-                (l)-> new Impl(new AtomicObservableLongProperty(new ObservableEventController.Impl<>(eventController, l)), Long.class)
+                (l)-> new Impl(new SimpleObservableProperty<>(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Object.class),
+                (l)-> new Impl(new SimpleObservableBooleanProperty(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Boolean.class),
+                (l)-> new Impl(new SimpleObservableDoubleProperty(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Double.class),
+                (l)-> new Impl(new SimpleObservableIntProperty(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Integer.class),
+                (l)-> new Impl(new SimpleObservableLongProperty(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Long.class),
+                (l)-> new Impl(new AtomicObservableProperty(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Object.class),
+                (l)-> new Impl(new AtomicObservableBooleanProperty(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Boolean.class),
+                (l)-> new Impl(new AtomicObservableDoubleProperty(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Double.class),
+                (l)-> new Impl(new AtomicObservableIntProperty(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Integer.class),
+                (l)-> new Impl(new AtomicObservableLongProperty(
+                        new ObservableEventController.Impl<>(eventController, l),
+                        new AtomicPropertyBindingController<>()),
+                        Long.class)
         );
     }
 

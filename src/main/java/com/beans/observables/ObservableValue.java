@@ -40,4 +40,7 @@ public interface ObservableValue<T> extends Supplier<T> {
      * @param changeListener listener to remove.
      */
     void removeChangeListener(ChangeListener<? super T> changeListener);
+
+    void bind(ObservableValue<T> observableValue);
+    void unbind();
 }

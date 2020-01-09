@@ -1,5 +1,6 @@
 package com.beans.observables.properties.atomic;
 
+import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableDoubleProperty;
 
@@ -26,20 +27,23 @@ public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
 
     private final AtomicLong mValue;
 
-    public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController, double initialValue) {
-        super(eventController);
+    public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController,
+                                          PropertyBindingController<Double> bindingController,
+                                          double initialValue) {
+        super(eventController, bindingController);
         mValue = new AtomicLong(Double.doubleToLongBits(initialValue));
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController) {
-        this(eventController, 0.0);
+    public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController,
+                                          PropertyBindingController<Double> bindingController) {
+        this(eventController, bindingController, 0.0);
     }
 
     @Override
-    public void setAsDouble(double value) {
+    protected void setInternal(double value) {
         long newLongValue = Double.doubleToLongBits(value);
         long oldLongValue = mValue.getAndSet(newLongValue);
         if (oldLongValue != newLongValue) {
@@ -49,7 +53,7 @@ public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
     }
 
     @Override
-    public double getAsDouble() {
+    protected double getInternal() {
         return Double.longBitsToDouble(mValue.get());
     }
 }

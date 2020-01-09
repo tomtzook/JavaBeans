@@ -1,9 +1,11 @@
 package com.beans.observables.properties.atomic;
 
+import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservablePropertyBase;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -25,28 +27,34 @@ public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
 
     private final AtomicReference<T> mValue;
 
-    public AtomicObservableProperty(ObservableEventController<T> eventController, T initialValue) {
-        super(eventController);
+    public AtomicObservableProperty(ObservableEventController<T> eventController,
+                                    PropertyBindingController<T> bindingController,
+                                    T initialValue) {
+        super(eventController, bindingController);
         mValue = new AtomicReference<>(initialValue);
     }
 
     /**
      * Initializes the property with a value of <em>null</em>.
      */
-    public AtomicObservableProperty(ObservableEventController<T> eventController) {
-        this(eventController, null);
+    public AtomicObservableProperty(ObservableEventController<T> eventController,
+                                    PropertyBindingController<T> bindingController) {
+        this(eventController, bindingController, null);
     }
 
     @Override
     public void set(T value) {
-        T oldValue = mValue.getAndSet(value);
-        if (!Objects.equals(oldValue, value)) {
-            fireValueChangedEvent(oldValue, value);
+        if (!setIfBound(value)) {
+            T oldValue = mValue.getAndSet(value);
+            if (!Objects.equals(oldValue, value)) {
+                fireValueChangedEvent(oldValue, value);
+            }
         }
     }
 
     @Override
     public T get() {
-        return mValue.get();
+        Optional<T> boundOptional = getIfBound();
+        return boundOptional.orElseGet(mValue::get);
     }
 }

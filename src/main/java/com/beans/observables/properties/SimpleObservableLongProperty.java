@@ -1,5 +1,6 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 
 /**
@@ -15,20 +16,23 @@ public class SimpleObservableLongProperty extends ObservableLongProperty {
 
     private long mValue;
 
-    public SimpleObservableLongProperty(ObservableEventController<Long> eventController, long initialValue) {
-        super(eventController);
+    public SimpleObservableLongProperty(ObservableEventController<Long> eventController,
+                                        PropertyBindingController<Long> bindingController,
+                                        long initialValue) {
+        super(eventController, bindingController);
         mValue = initialValue;
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public SimpleObservableLongProperty(ObservableEventController<Long> eventController) {
-        this(eventController, 0);
+    public SimpleObservableLongProperty(ObservableEventController<Long> eventController,
+                                        PropertyBindingController<Long> bindingController) {
+        this(eventController, bindingController, 0);
     }
 
     @Override
-    public void setAsLong(long value) {
+    public void setInternal(long value) {
         if (mValue != value) {
             long oldValue = mValue;
             mValue = value;
@@ -37,7 +41,7 @@ public class SimpleObservableLongProperty extends ObservableLongProperty {
     }
 
     @Override
-    public long getAsLong() {
+    public long getInternal() {
         return mValue;
     }
 }

@@ -1,9 +1,11 @@
 package com.beans.observables.properties;
 
 import com.beans.LongProperty;
+import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * <p>
@@ -23,8 +25,9 @@ import java.util.Objects;
  */
 public abstract class ObservableLongProperty extends ObservablePropertyBase<Long> implements LongProperty {
 
-    protected ObservableLongProperty(ObservableEventController<Long> eventController) {
-        super(eventController);
+    protected ObservableLongProperty(ObservableEventController<Long> eventController,
+                                     PropertyBindingController<Long> bindingController) {
+        super(eventController, bindingController);
     }
 
     /**
@@ -35,17 +38,36 @@ public abstract class ObservableLongProperty extends ObservablePropertyBase<Long
      * </p>
      */
     @Override
-    public abstract void setAsLong(long value);
+    public void setAsLong(long value) {
+        if (!setIfBound(value)) {
+            setInternal(value);
+        }
+    }
+
+    @Override
+    public long getAsLong() {
+        Optional<Long> boundOptional = getIfBound();
+        return boundOptional.orElseGet(this::getInternal);
+    }
 
     @Override
     public void set(Long value) {
-        setAsLong(Objects.requireNonNull(value, "value is null"));
+        Objects.requireNonNull(value, "value is null");
+
+        if (!setIfBound(value)) {
+            setInternal(value);
+        }
     }
 
     @Override
     public Long get() {
-        return getAsLong();
+        Optional<Long> boundOptional = getIfBound();
+        return boundOptional.orElseGet(this::getInternal);
+
     }
+
+    protected abstract void setInternal(long value);
+    protected abstract long getInternal();
 
     @Override
     public String toString() {

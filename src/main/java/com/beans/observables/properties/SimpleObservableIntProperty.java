@@ -1,5 +1,6 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 
 /**
@@ -15,20 +16,23 @@ public class SimpleObservableIntProperty extends ObservableIntProperty {
 
     private int mValue;
 
-    public SimpleObservableIntProperty(ObservableEventController<Integer> eventController, int initialValue) {
-        super(eventController);
+    public SimpleObservableIntProperty(ObservableEventController<Integer> eventController,
+                                       PropertyBindingController<Integer> bindingController,
+                                       int initialValue) {
+        super(eventController, bindingController);
         mValue = initialValue;
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public SimpleObservableIntProperty(ObservableEventController<Integer> eventController) {
-        this(eventController, 0);
+    public SimpleObservableIntProperty(ObservableEventController<Integer> eventController,
+                                       PropertyBindingController<Integer> bindingController) {
+        this(eventController, bindingController, 0);
     }
 
     @Override
-    public void setAsInt(int value) {
+    public void setInternal(int value) {
         if (mValue != value) {
             int oldValue = mValue;
             mValue = value;
@@ -37,7 +41,7 @@ public class SimpleObservableIntProperty extends ObservableIntProperty {
     }
 
     @Override
-    public int getAsInt() {
+    public int getInternal() {
         return mValue;
     }
 }

@@ -1,5 +1,6 @@
 package com.beans.observables.properties.atomic;
 
+import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableLongProperty;
 
@@ -26,20 +27,23 @@ public class AtomicObservableLongProperty extends ObservableLongProperty {
 
     private final AtomicLong mValue;
 
-    public AtomicObservableLongProperty(ObservableEventController<Long> eventController, long initialValue) {
-        super(eventController);
+    public AtomicObservableLongProperty(ObservableEventController<Long> eventController,
+                                        PropertyBindingController<Long> bindingController,
+                                        long initialValue) {
+        super(eventController, bindingController);
         mValue = new AtomicLong(initialValue);
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public AtomicObservableLongProperty(ObservableEventController<Long> eventController) {
-        this(eventController, 0);
+    public AtomicObservableLongProperty(ObservableEventController<Long> eventController,
+                                        PropertyBindingController<Long> bindingController) {
+        this(eventController, bindingController, 0);
     }
 
     @Override
-    public void setAsLong(long value) {
+    protected void setInternal(long value) {
         long oldValue = mValue.getAndSet(value);
         if (oldValue != value) {
             fireValueChangedEvent(oldValue, value);
@@ -47,7 +51,7 @@ public class AtomicObservableLongProperty extends ObservableLongProperty {
     }
 
     @Override
-    public long getAsLong() {
+    protected long getInternal() {
         return mValue.get();
     }
 }

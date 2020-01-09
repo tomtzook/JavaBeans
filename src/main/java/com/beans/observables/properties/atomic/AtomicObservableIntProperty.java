@@ -1,5 +1,6 @@
 package com.beans.observables.properties.atomic;
 
+import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableIntProperty;
 
@@ -22,20 +23,23 @@ public class AtomicObservableIntProperty extends ObservableIntProperty {
 
     private final AtomicInteger mValue;
 
-    public AtomicObservableIntProperty(ObservableEventController<Integer> eventController, int initialValue) {
-        super(eventController);
+    public AtomicObservableIntProperty(ObservableEventController<Integer> eventController,
+                                       PropertyBindingController<Integer> bindingController,
+                                       int initialValue) {
+        super(eventController, bindingController);
         mValue = new AtomicInteger(initialValue);
     }
 
     /**
      * Initializes the property with a value of <em>0</em>.
      */
-    public AtomicObservableIntProperty(ObservableEventController<Integer> eventController) {
-        this(eventController, 0);
+    public AtomicObservableIntProperty(ObservableEventController<Integer> eventController,
+                                       PropertyBindingController<Integer> bindingController) {
+        this(eventController, bindingController,0);
     }
 
     @Override
-    public void setAsInt(int value) {
+    protected void setInternal(int value) {
         int oldValue = mValue.getAndSet(value);
         if (oldValue != value) {
             fireValueChangedEvent(oldValue, value);
@@ -43,7 +47,7 @@ public class AtomicObservableIntProperty extends ObservableIntProperty {
     }
 
     @Override
-    public int getAsInt() {
+    protected int getInternal() {
         return mValue.get();
     }
 }
