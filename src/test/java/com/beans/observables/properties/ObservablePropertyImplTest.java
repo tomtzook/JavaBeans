@@ -29,6 +29,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -65,8 +66,10 @@ public class ObservablePropertyImplTest {
         property.bind(observableValue);
 
         Object getValue = property.get();
+
         assertThat(getValue, equalTo(value));
         assertThat(getValue, not(equalTo(currentValue)));
+        verify(observableValue, times(1)).get();
     }
 
     @ParameterizedTest(name = "{0}.bind(...).set(...)")
@@ -76,6 +79,27 @@ public class ObservablePropertyImplTest {
             property.bind(observableValue);
             property.set(value);
         });
+    }
+
+    @ParameterizedTest(name = "{0}.bindBidirectional(...).get()")
+    @MethodSource("sameValueWithProperty")
+    public void bindBidirectionalndGet_withObservable_getsValueFromBound(ObservableProperty property, Object currentValue, Object value, ObservableProperty observableProperty) throws Exception {
+        property.bindBidirectional(observableProperty);
+
+        Object getValue = property.get();
+
+        assertThat(getValue, equalTo(value));
+        assertThat(getValue, not(equalTo(currentValue)));
+        verify(observableProperty, times(1)).get();
+    }
+
+    @ParameterizedTest(name = "{0}.bindBidirectional(...).set(...)")
+    @MethodSource("sameValueWithProperty")
+    public void bindBidirectionalAndSet_withObservable_setsValue(ObservableProperty property, Object currentValue, Object value, ObservableProperty observableProperty) throws Exception {
+        property.bindBidirectional(observableProperty);
+
+        property.set(value);
+        verify(observableProperty, times(1)).set(eq(value));
     }
 
     public static Stream<Arguments> newValueWithListenerArguments() {
@@ -103,6 +127,19 @@ public class ObservablePropertyImplTest {
 
                     Object someValue = valueForProperty(impl);
                     ObservableValue value = mock(ObservableValue.class);
+                    when(value.get()).thenReturn(someValue);
+
+                    return Arguments.of(impl.mProperty, impl.mProperty.get(), someValue, value);
+                });
+    }
+
+    public static Stream<Arguments> sameValueWithProperty() {
+        return implementations().stream()
+                .map((func) -> {
+                    Impl impl = func.apply(mock(ChangeListener.class));
+
+                    Object someValue = valueForProperty(impl);
+                    ObservableProperty value = mock(ObservableProperty.class);
                     when(value.get()).thenReturn(someValue);
 
                     return Arguments.of(impl.mProperty, impl.mProperty.get(), someValue, value);
