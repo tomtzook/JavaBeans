@@ -2,6 +2,8 @@ package com.beans.observables.listeners;
 
 import com.notifier.EventController;
 
+import java.util.Arrays;
+
 public interface ObservableEventController<T> {
 
     void addListener(ChangeListener<? super T> listener);
@@ -13,6 +15,12 @@ public interface ObservableEventController<T> {
 
         public Impl(EventController eventController) {
             mEventController = eventController;
+        }
+
+        @SafeVarargs
+        public Impl(EventController eventController, ChangeListener<? super T>... listeners) {
+            mEventController = eventController;
+            Arrays.asList(listeners).forEach(this::addListener);
         }
 
         @Override
