@@ -54,6 +54,24 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+task javabeansAll(type: Jar, dependsOn: tasks.assemble) {
+    dependsOn sourcesJar
+    dependsOn javadocJar
+
+    archiveFileName.set('javabeans-all.jar')
+    destinationDirectory.set(rootProject.buildDir)
+
+    from files(subprojects.collect {
+        it.sourceSets.main.output
+    })
+    from files(subprojects.collect {
+        it.sourceSets.main.allSource
+    })
+    from files(subprojects.collect {
+        it.javadoc.destinationDir
+    })
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
