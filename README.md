@@ -1,4 +1,8 @@
 # JavaBeans
+![Maven Central](https://img.shields.io/maven-central/v/com.github.tomtzook/javabeans)
+![Travis (.org) branch](https://img.shields.io/travis/tomtzook/JavaBeans/master.svg)
+![GitHub](https://img.shields.io/github/license/tomtzook/JavaBeans.svg)
+
 
 Library providing java beans utilities and observables.
 Provides interfaces and several implementations for properties, observable data and such.
