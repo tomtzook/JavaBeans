@@ -63,7 +63,7 @@ publishing {
             artifact javadocJar
 
             pom {
-                name = 'jmath'
+                name = 'javabeans'
                 description = 'Beans for Java'
                 url = 'https://github.com/tomtzook/JavaBeans'
 
