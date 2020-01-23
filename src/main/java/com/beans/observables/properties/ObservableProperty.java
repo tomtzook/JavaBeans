@@ -28,4 +28,6 @@ public interface ObservableProperty<T> extends ObservableValue<T>, Property<T> {
      */
     @Override
     void set(T value);
+
+    void bindBidirectional(ObservableProperty<T> observableProperty);
 }

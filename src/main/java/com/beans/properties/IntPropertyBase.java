@@ -2,6 +2,8 @@ package com.beans.properties;
 
 import com.beans.IntProperty;
 
+import java.util.Objects;
+
 /**
  * <p>
  *     Base for {@link IntProperty} implementations. Implements
@@ -15,12 +17,7 @@ public abstract class IntPropertyBase implements IntProperty {
 
     @Override
     public void set(Integer value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsInt(0);
-        } else {
-            setAsInt(value);
-        }
+        setAsInt(Objects.requireNonNull(value, "null value"));
     }
 
     @Override

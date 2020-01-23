@@ -1,6 +1,11 @@
 package com.beans.observables.properties;
 
 import com.beans.BooleanProperty;
+import com.beans.observables.binding.PropertyBindingController;
+import com.beans.observables.listeners.ObservableEventController;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * <p>
@@ -20,8 +25,9 @@ import com.beans.BooleanProperty;
  */
 public abstract class ObservableBooleanProperty extends ObservablePropertyBase<Boolean> implements BooleanProperty {
 
-    protected ObservableBooleanProperty(boolean threadSafe) {
-        super(threadSafe);
+    protected ObservableBooleanProperty(ObservableEventController<Boolean> eventController,
+                                        PropertyBindingController<Boolean> bindingController) {
+        super(eventController, bindingController);
     }
 
     /**
@@ -32,22 +38,36 @@ public abstract class ObservableBooleanProperty extends ObservablePropertyBase<B
      * </p>
      */
     @Override
-    public abstract void setAsBoolean(boolean value);
+    public void setAsBoolean(boolean value) {
+        if (!setIfBound(value)) {
+            setInternal(value);
+        }
+    }
+
+    @Override
+    public boolean getAsBoolean() {
+        Optional<Boolean> boundOptional = getIfBound();
+        return boundOptional.orElseGet(this::getInternal);
+    }
 
     @Override
     public void set(Boolean value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsBoolean(false);
-        } else {
-            setAsBoolean(value);
+        Objects.requireNonNull(value, "value is null");
+
+        if (!setIfBound(value)) {
+            setInternal(value);
         }
     }
 
     @Override
     public Boolean get() {
-        return getAsBoolean();
+        Optional<Boolean> boundOptional = getIfBound();
+        return boundOptional.orElseGet(this::getInternal);
+
     }
+
+    protected abstract void setInternal(boolean value);
+    protected abstract boolean getInternal();
 
     @Override
     public String toString() {

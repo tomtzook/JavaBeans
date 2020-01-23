@@ -1,5 +1,6 @@
 package com.beans.observables;
 
+import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
 
 import java.util.function.Supplier;
@@ -25,7 +26,7 @@ public interface ObservableValue<T> extends Supplier<T> {
      * Adds a listener for changes of the value.
      * <p>
      *     Implementations of this interface are guaranteed to call
-     *     {@link ChangeListener#changed(ObservableValue, Object, Object)}
+     *     {@link ChangeListener#onChange(ChangeEvent)}
      *     of attached listeners when the value has changed.
      * </p>
      *
@@ -39,4 +40,7 @@ public interface ObservableValue<T> extends Supplier<T> {
      * @param changeListener listener to remove.
      */
     void removeChangeListener(ChangeListener<? super T> changeListener);
+
+    void bind(ObservableValue<T> observableValue);
+    void unbind();
 }

@@ -1,5 +1,8 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.binding.PropertyBindingController;
+import com.beans.observables.listeners.ObservableEventController;
+
 /**
  * <p>
  *     A simple implementation of {@link ObservableBooleanProperty}, holding a
@@ -13,20 +16,23 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
 
     private boolean mValue;
 
-    public SimpleObservableBooleanProperty(boolean initialValue) {
-        super(false);
+    public SimpleObservableBooleanProperty(ObservableEventController<Boolean> eventController,
+                                           PropertyBindingController<Boolean> bindingController,
+                                           boolean initialValue) {
+        super(eventController, bindingController);
         mValue = initialValue;
     }
 
     /**
      * Initializes the property with a value of <em>false</em>.
      */
-    public SimpleObservableBooleanProperty() {
-        this(false);
+    public SimpleObservableBooleanProperty(ObservableEventController<Boolean> eventController,
+                                           PropertyBindingController<Boolean> bindingController) {
+        this(eventController, bindingController, false);
     }
 
     @Override
-    public void setAsBoolean(boolean value) {
+    public void setInternal(boolean value) {
         if (mValue != value) {
             boolean oldValue = mValue;
             mValue = value;
@@ -35,7 +41,7 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
     }
 
     @Override
-    public boolean getAsBoolean() {
+    public boolean getInternal() {
         return mValue;
     }
 }

@@ -1,6 +1,11 @@
 package com.beans.observables.properties;
 
 import com.beans.IntProperty;
+import com.beans.observables.binding.PropertyBindingController;
+import com.beans.observables.listeners.ObservableEventController;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * <p>
@@ -20,8 +25,9 @@ import com.beans.IntProperty;
  */
 public abstract class ObservableIntProperty extends ObservablePropertyBase<Integer> implements IntProperty {
 
-    protected ObservableIntProperty(boolean threadSafe) {
-        super(threadSafe);
+    protected ObservableIntProperty(ObservableEventController<Integer> eventController,
+                                    PropertyBindingController<Integer> bindingController) {
+        super(eventController, bindingController);
     }
 
     /**
@@ -32,22 +38,36 @@ public abstract class ObservableIntProperty extends ObservablePropertyBase<Integ
      * </p>
      */
     @Override
-    public abstract void setAsInt(int value);
+    public void setAsInt(int value) {
+        if (!setIfBound(value)) {
+            setInternal(value);
+        }
+    }
+
+    @Override
+    public int getAsInt() {
+        Optional<Integer> boundOptional = getIfBound();
+        return boundOptional.orElseGet(this::getInternal);
+    }
 
     @Override
     public void set(Integer value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsInt(0);
-        } else {
-            setAsInt(value);
+        Objects.requireNonNull(value, "value is null");
+
+        if (!setIfBound(value)) {
+            setInternal(value);
         }
     }
 
     @Override
     public Integer get() {
-        return getAsInt();
+        Optional<Integer> boundOptional = getIfBound();
+        return boundOptional.orElseGet(this::getInternal);
+
     }
+
+    protected abstract void setInternal(int value);
+    protected abstract int getInternal();
 
     @Override
     public String toString() {

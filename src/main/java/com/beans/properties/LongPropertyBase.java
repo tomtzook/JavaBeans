@@ -2,6 +2,8 @@ package com.beans.properties;
 
 import com.beans.LongProperty;
 
+import java.util.Objects;
+
 /**
  * <p>
  *     Base for {@link LongProperty} implementations. Implements
@@ -15,12 +17,7 @@ public abstract class LongPropertyBase implements LongProperty {
 
     @Override
     public void set(Long value) {
-        if (value == null) {
-            // TODO: LOG?
-            setAsLong(0);
-        } else {
-            setAsLong(value);
-        }
+        setAsLong(Objects.requireNonNull(value, "null value"));
     }
 
     @Override

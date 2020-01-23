@@ -1,6 +1,10 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.binding.PropertyBindingController;
+import com.beans.observables.listeners.ObservableEventController;
+
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * <p>
@@ -17,29 +21,35 @@ public class SimpleObservableProperty<T> extends ObservablePropertyBase<T> {
 
     private T mValue;
 
-    public SimpleObservableProperty(T initialValue) {
-        super(false);
+    public SimpleObservableProperty(ObservableEventController<T> eventController,
+                                    PropertyBindingController<T> bindingController,
+                                    T initialValue) {
+        super(eventController, bindingController);
         mValue = initialValue;
     }
 
     /**
      * Initializes the property with a value of <em>null</em>.
      */
-    public SimpleObservableProperty() {
-        this(null);
+    public SimpleObservableProperty(ObservableEventController<T> eventController,
+                                    PropertyBindingController<T> bindingController) {
+        this(eventController, bindingController, null);
     }
 
     @Override
     public void set(T value) {
-        if (!Objects.equals(mValue, value)) {
-            T oldValue = mValue;
-            mValue = value;
-            fireValueChangedEvent(oldValue, value);
+        if (!setIfBound(value)) {
+            if (!Objects.equals(mValue, value)) {
+                T oldValue = mValue;
+                mValue = value;
+                fireValueChangedEvent(oldValue, value);
+            }
         }
     }
 
     @Override
     public T get() {
-        return mValue;
+        Optional<T> boundOptional = getIfBound();
+        return boundOptional.orElse(mValue);
     }
 }

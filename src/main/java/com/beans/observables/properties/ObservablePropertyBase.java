@@ -1,6 +1,13 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.ObservableValue;
+import com.beans.observables.binding.ObservableBinding;
+import com.beans.observables.binding.PropertyBindingController;
+import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
+import com.beans.observables.listeners.ObservableEventController;
+
+import java.util.Optional;
 
 /**
  * <p>
@@ -25,30 +32,37 @@ import com.beans.observables.listeners.ChangeListener;
  */
 public abstract class ObservablePropertyBase<T> implements ObservableProperty<T> {
 
-    private ObservableListeningHelper<T> mObservableListeningHelper;
+    private final ObservableEventController<T> mEventController;
+    private final PropertyBindingController<T> mBindingController;
 
-    /**
-     * Initializes the listeners handling.
-     *
-     * @param threadSafe true to use a thread-safe listener added. Only affects {@link #addChangeListener(ChangeListener)}
-     *                   {@link #removeChangeListener(ChangeListener)}, but should be used when this
-     *                   class is accessed concurrently. {@link #fireValueChangedEvent(Object, Object)}
-     *                   must be synchronized manually.
-     */
-    protected ObservablePropertyBase(boolean threadSafe) {
-        mObservableListeningHelper = threadSafe
-                ? ObservableListeningHelper.createSynchronized(this)
-                : ObservableListeningHelper.createSimple(this);
+    protected ObservablePropertyBase(ObservableEventController<T> eventController, PropertyBindingController<T> bindingController) {
+        mEventController = eventController;
+        mBindingController = bindingController;
     }
 
     @Override
     public final void addChangeListener(ChangeListener<? super T> changeListener) {
-        mObservableListeningHelper.addListener(changeListener);
+        mEventController.addListener(changeListener);
     }
 
     @Override
     public final void removeChangeListener(ChangeListener<? super T> changeListener) {
-        mObservableListeningHelper.removeListener(changeListener);
+        mEventController.removeListener(changeListener);
+    }
+
+    @Override
+    public final void bind(ObservableValue<T> observableValue) {
+        mBindingController.bind(observableValue);
+    }
+
+    @Override
+    public final void bindBidirectional(ObservableProperty<T> observableProperty) {
+        mBindingController.bindBidirectional(observableProperty);
+    }
+
+    @Override
+    public final void unbind() {
+        mBindingController.unbind();
     }
 
     /**
@@ -58,7 +72,38 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
      * @param newValue the new value of the property.
      */
     protected final void fireValueChangedEvent(T oldValue, T newValue) {
-        mObservableListeningHelper.fireValueChangedEvent(oldValue, newValue);
+        mEventController.fire(new ChangeEvent<>(this, oldValue, newValue));
+    }
+
+    protected final boolean isBound() {
+        return mBindingController.isBound();
+    }
+
+    protected final Optional<ObservableBinding<T>> getBound() {
+        return mBindingController.getBinding();
+    }
+
+    protected final boolean setIfBound(T value) {
+        if (isBound()) {
+            Optional<ObservableBinding<T>> bindingOptional = getBound();
+            if (bindingOptional.isPresent()) {
+                bindingOptional.get().set(value);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected final Optional<T> getIfBound() {
+        if (isBound()) {
+            Optional<ObservableBinding<T>> bindingOptional = getBound();
+            if (bindingOptional.isPresent()) {
+                return Optional.of(bindingOptional.get().get());
+            }
+        }
+
+        return Optional.empty();
     }
 
     @Override

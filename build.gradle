@@ -1,35 +1,57 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'maven-publish'
     id 'signing'
 }
 
+apply from: rootProject.file('extras.gradle')
+
 group = GROUP
 version = VERSION
 
-def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
-}
-
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
+    implementation group: 'com.github.tomtzook', name: 'notifier', version: '1.0.0'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.2'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.4.2'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.2.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.23.4'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '2.23.0'
+    testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
 }
 
-task createSources(type: Jar, dependsOn: 'classes') {
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+        showStackTraces true
+    }
+}
+
+jar {
+    archiveBaseName.set(project.name)
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('sources')
+
     from sourceSets.main.allSource
-    classifier = 'sources'
 }
 
-task createJavadoc(type: Jar, dependsOn: 'javadoc') {
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('javadoc')
+
     from javadoc.destinationDir
-    classifier = 'javadoc'
 }
 
 publishing {
@@ -37,11 +59,11 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
 
-            artifact createJavadoc
-            artifact createSources
+            artifact sourcesJar
+            artifact javadocJar
 
             pom {
-                name = 'jmath'
+                name = 'javabeans'
                 description = 'Beans for Java'
                 url = 'https://github.com/tomtzook/JavaBeans'
 
@@ -80,13 +102,16 @@ publishing {
             }
 
             credentials {
-                username ''
-                password ''
+                username getNexusUsername()
+                password getNexusPassword()
             }
         }
     }
 }
 
-signing {
-    sign publishing.publications.mavenJava
+if (shouldSign()) {
+    signing {
+        sign publishing.publications.mavenJava
+    }
 }
+
