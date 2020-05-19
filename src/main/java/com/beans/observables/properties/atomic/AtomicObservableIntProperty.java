@@ -30,9 +30,6 @@ public class AtomicObservableIntProperty extends ObservableIntProperty {
         mValue = new AtomicInteger(initialValue);
     }
 
-    /**
-     * Initializes the property with a value of <em>0</em>.
-     */
     public AtomicObservableIntProperty(ObservableEventController<Integer> eventController,
                                        PropertyBindingController<Integer> bindingController) {
         this(eventController, bindingController,0);

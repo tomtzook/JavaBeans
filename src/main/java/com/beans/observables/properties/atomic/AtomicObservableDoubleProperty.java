@@ -34,9 +34,6 @@ public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
         mValue = new AtomicLong(Double.doubleToLongBits(initialValue));
     }
 
-    /**
-     * Initializes the property with a value of <em>0</em>.
-     */
     public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController,
                                           PropertyBindingController<Double> bindingController) {
         this(eventController, bindingController, 0.0);

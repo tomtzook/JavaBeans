@@ -23,9 +23,6 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
         mValue = initialValue;
     }
 
-    /**
-     * Initializes the property with a value of <em>0</em>.
-     */
     public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController,
                                           PropertyBindingController<Double> bindingController) {
         this(eventController, bindingController, 0.0);

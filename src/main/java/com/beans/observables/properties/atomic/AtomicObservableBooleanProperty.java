@@ -30,9 +30,6 @@ public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
         mValue = new AtomicBoolean(initialValue);
     }
 
-    /**
-     * Initializes the property with a value of <em>false</em>.
-     */
     public AtomicObservableBooleanProperty(ObservableEventController<Boolean> eventController,
                                            PropertyBindingController<Boolean> bindingController) {
         this(eventController, bindingController, false);

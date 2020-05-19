@@ -28,9 +28,6 @@ public class SimpleObservableProperty<T> extends ObservablePropertyBase<T> {
         mValue = initialValue;
     }
 
-    /**
-     * Initializes the property with a value of <em>null</em>.
-     */
     public SimpleObservableProperty(ObservableEventController<T> eventController,
                                     PropertyBindingController<T> bindingController) {
         this(eventController, bindingController, null);

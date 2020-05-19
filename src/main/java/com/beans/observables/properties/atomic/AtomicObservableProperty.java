@@ -34,9 +34,6 @@ public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
         mValue = new AtomicReference<>(initialValue);
     }
 
-    /**
-     * Initializes the property with a value of <em>null</em>.
-     */
     public AtomicObservableProperty(ObservableEventController<T> eventController,
                                     PropertyBindingController<T> bindingController) {
         this(eventController, bindingController, null);

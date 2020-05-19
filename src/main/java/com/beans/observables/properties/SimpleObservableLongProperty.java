@@ -23,9 +23,6 @@ public class SimpleObservableLongProperty extends ObservableLongProperty {
         mValue = initialValue;
     }
 
-    /**
-     * Initializes the property with a value of <em>0</em>.
-     */
     public SimpleObservableLongProperty(ObservableEventController<Long> eventController,
                                         PropertyBindingController<Long> bindingController) {
         this(eventController, bindingController, 0);

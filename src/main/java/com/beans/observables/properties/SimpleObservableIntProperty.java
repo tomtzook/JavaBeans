@@ -23,9 +23,6 @@ public class SimpleObservableIntProperty extends ObservableIntProperty {
         mValue = initialValue;
     }
 
-    /**
-     * Initializes the property with a value of <em>0</em>.
-     */
     public SimpleObservableIntProperty(ObservableEventController<Integer> eventController,
                                        PropertyBindingController<Integer> bindingController) {
         this(eventController, bindingController, 0);

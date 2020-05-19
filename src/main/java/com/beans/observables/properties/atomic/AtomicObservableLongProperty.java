@@ -34,9 +34,6 @@ public class AtomicObservableLongProperty extends ObservableLongProperty {
         mValue = new AtomicLong(initialValue);
     }
 
-    /**
-     * Initializes the property with a value of <em>0</em>.
-     */
     public AtomicObservableLongProperty(ObservableEventController<Long> eventController,
                                         PropertyBindingController<Long> bindingController) {
         this(eventController, bindingController, 0);

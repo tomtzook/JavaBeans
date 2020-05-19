@@ -23,9 +23,6 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
         mValue = initialValue;
     }
 
-    /**
-     * Initializes the property with a value of <em>false</em>.
-     */
     public SimpleObservableBooleanProperty(ObservableEventController<Boolean> eventController,
                                            PropertyBindingController<Boolean> bindingController) {
         this(eventController, bindingController, false);
