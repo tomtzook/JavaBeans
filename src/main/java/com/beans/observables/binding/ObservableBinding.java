@@ -4,4 +4,6 @@ public interface ObservableBinding<T> {
 
     void set(T value);
     T get();
+
+    void onUnbind();
 }

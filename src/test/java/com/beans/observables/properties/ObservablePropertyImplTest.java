@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -30,6 +31,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -83,7 +85,7 @@ public class ObservablePropertyImplTest {
 
     @ParameterizedTest(name = "{0}.bindBidirectional(...).get()")
     @MethodSource("sameValueWithProperty")
-    public void bindBidirectionalndGet_withObservable_getsValueFromBound(ObservableProperty property, Object currentValue, Object value, ObservableProperty observableProperty) throws Exception {
+    public void bindBidirectionalAndGet_withObservable_getsValueFromBound(ObservableProperty property, Object currentValue, Object value, ObservableProperty observableProperty) throws Exception {
         property.bindBidirectional(observableProperty);
 
         Object getValue = property.get();
@@ -91,6 +93,20 @@ public class ObservablePropertyImplTest {
         assertThat(getValue, equalTo(value));
         assertThat(getValue, not(equalTo(currentValue)));
         verify(observableProperty, times(1)).get();
+    }
+
+    @ParameterizedTest(name = "{0}.bindBidirectional(...).get()")
+    @MethodSource("listenerUpdateInBind")
+    public void bindBidirectional_withObservableAndListener_callsListener(ObservableProperty property, Object currentValue, Object value, ObservableProperty observableProperty, ChangeListener listener) throws Exception {
+        property.bindBidirectional(observableProperty);
+
+        ArgumentCaptor<ChangeEvent> captor = ArgumentCaptor.forClass(ChangeEvent.class);
+        verify(listener, times(1)).onChange(captor.capture());
+
+        ChangeEvent event = captor.getValue();
+        assertThat(event.getObservableValue(), equalTo(property));
+        assertThat(event.getNewValue(), equalTo(value));
+        assertThat(event.getOldValue(), not(equalTo(value)));
     }
 
     @ParameterizedTest(name = "{0}.bindBidirectional(...).set(...)")
@@ -155,6 +171,32 @@ public class ObservablePropertyImplTest {
                     when(value.get()).thenReturn(someValue);
 
                     return Arguments.of(impl.mProperty, impl.mProperty.get(), someValue, value);
+                });
+    }
+
+    public static Stream<Arguments> listenerUpdateInBind() {
+        return implementations().stream()
+                .map((func) -> {
+                    ChangeListener listener = mock(ChangeListener.class);
+                    Impl impl = func.apply(listener);
+
+                    Object someValue = valueForProperty(impl);
+                    AtomicReference<ChangeListener> setListener = new AtomicReference<>();
+                    ObservableProperty value = mock(ObservableProperty.class);
+                    doAnswer(invocation -> {
+                        setListener.set(invocation.getArgument(0));
+                        return null;
+                    }).when(value).addChangeListener(any(ChangeListener.class));
+                    when(value.get()).thenReturn(someValue);
+                    doAnswer(invocation -> {
+                        ChangeListener l = setListener.get();
+                        if (l != null) {
+                            l.onChange(new ChangeEvent(value, someValue, invocation.getArgument(0)));
+                        }
+                        return null;
+                    }).when(value).set(any());
+
+                    return Arguments.of(impl.mProperty, impl.mProperty.get(), someValue, value, listener);
                 });
     }
 

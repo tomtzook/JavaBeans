@@ -9,6 +9,7 @@ import com.beans.observables.listeners.ObservableEventController;
 import com.notifier.EventController;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * <p>
@@ -58,12 +59,12 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
 
     @Override
     public final void bind(ObservableValue<T> observableValue) {
-        mBindingController.bind(observableValue);
+        mBindingController.bind(observableValue, new BoundChangeHandler<>(this));
     }
 
     @Override
     public final void bindBidirectional(ObservableProperty<T> observableProperty) {
-        mBindingController.bindBidirectional(observableProperty);
+        mBindingController.bindBidirectional(observableProperty, new BoundChangeHandler<>(this));
     }
 
     @Override
@@ -123,5 +124,19 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
     @Override
     public String toString() {
         return String.format("ObservableProperty [value=%s]", String.valueOf(get()));
+    }
+
+    private static class BoundChangeHandler<T> implements Consumer<ChangeEvent<T>> {
+
+        private final ObservablePropertyBase<T> mPropertyBase;
+
+        private BoundChangeHandler(ObservablePropertyBase<T> propertyBase) {
+            mPropertyBase = propertyBase;
+        }
+
+        @Override
+        public void accept(ChangeEvent<T> event) {
+            mPropertyBase.fireValueChangedEvent(event.getOldValue(), event.getNewValue());
+        }
     }
 }
