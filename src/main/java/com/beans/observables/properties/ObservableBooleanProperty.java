@@ -3,6 +3,7 @@ package com.beans.observables.properties;
 import com.beans.BooleanProperty;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.EventController;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -26,6 +27,11 @@ import java.util.Optional;
 public abstract class ObservableBooleanProperty extends ObservablePropertyBase<Boolean> implements BooleanProperty {
 
     protected ObservableBooleanProperty(ObservableEventController<Boolean> eventController,
+                                        PropertyBindingController<Boolean> bindingController) {
+        super(eventController, bindingController);
+    }
+
+    protected ObservableBooleanProperty(EventController eventController,
                                         PropertyBindingController<Boolean> bindingController) {
         super(eventController, bindingController);
     }

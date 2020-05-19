@@ -2,6 +2,7 @@ package com.beans.observables.properties;
 
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.EventController;
 
 /**
  * <p>
@@ -19,6 +20,13 @@ public class SimpleObservableLongProperty extends ObservableLongProperty {
     public SimpleObservableLongProperty(ObservableEventController<Long> eventController,
                                         PropertyBindingController<Long> bindingController,
                                         long initialValue) {
+        super(eventController, bindingController);
+        mValue = initialValue;
+    }
+
+    public SimpleObservableLongProperty(EventController eventController,
+                                              PropertyBindingController<Long> bindingController,
+                                              long initialValue) {
         super(eventController, bindingController);
         mValue = initialValue;
     }

@@ -3,8 +3,10 @@ package com.beans.observables.properties.atomic;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableIntProperty;
+import com.notifier.EventController;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * <p>
@@ -26,6 +28,13 @@ public class AtomicObservableIntProperty extends ObservableIntProperty {
     public AtomicObservableIntProperty(ObservableEventController<Integer> eventController,
                                        PropertyBindingController<Integer> bindingController,
                                        int initialValue) {
+        super(eventController, bindingController);
+        mValue = new AtomicInteger(initialValue);
+    }
+
+    public AtomicObservableIntProperty(EventController eventController,
+                                          PropertyBindingController<Integer> bindingController,
+                                          int initialValue) {
         super(eventController, bindingController);
         mValue = new AtomicInteger(initialValue);
     }

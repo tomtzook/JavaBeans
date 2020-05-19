@@ -2,6 +2,7 @@ package com.beans.observables.properties;
 
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.EventController;
 
 /**
  * <p>
@@ -19,6 +20,13 @@ public class SimpleObservableIntProperty extends ObservableIntProperty {
     public SimpleObservableIntProperty(ObservableEventController<Integer> eventController,
                                        PropertyBindingController<Integer> bindingController,
                                        int initialValue) {
+        super(eventController, bindingController);
+        mValue = initialValue;
+    }
+
+    public SimpleObservableIntProperty(EventController eventController,
+                                              PropertyBindingController<Integer> bindingController,
+                                              int initialValue) {
         super(eventController, bindingController);
         mValue = initialValue;
     }

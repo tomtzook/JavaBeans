@@ -3,7 +3,9 @@ package com.beans.observables.properties.atomic;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableDoubleProperty;
+import com.notifier.EventController;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -30,6 +32,13 @@ public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
     public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController,
                                           PropertyBindingController<Double> bindingController,
                                           double initialValue) {
+        super(eventController, bindingController);
+        mValue = new AtomicLong(Double.doubleToLongBits(initialValue));
+    }
+
+    public AtomicObservableDoubleProperty(EventController eventController,
+                                              PropertyBindingController<Double> bindingController,
+                                              double initialValue) {
         super(eventController, bindingController);
         mValue = new AtomicLong(Double.doubleToLongBits(initialValue));
     }

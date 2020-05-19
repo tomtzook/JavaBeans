@@ -3,9 +3,11 @@ package com.beans.observables.properties.atomic;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservablePropertyBase;
+import com.notifier.EventController;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -30,6 +32,13 @@ public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
     public AtomicObservableProperty(ObservableEventController<T> eventController,
                                     PropertyBindingController<T> bindingController,
                                     T initialValue) {
+        super(eventController, bindingController);
+        mValue = new AtomicReference<>(initialValue);
+    }
+
+    public AtomicObservableProperty(EventController eventController,
+                                        PropertyBindingController<T> bindingController,
+                                        T initialValue) {
         super(eventController, bindingController);
         mValue = new AtomicReference<>(initialValue);
     }

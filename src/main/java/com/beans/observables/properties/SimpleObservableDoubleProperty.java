@@ -2,6 +2,7 @@ package com.beans.observables.properties;
 
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.EventController;
 
 /**
  * <p>
@@ -19,6 +20,13 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
     public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController,
                                           PropertyBindingController<Double> bindingController,
                                           double initialValue) {
+        super(eventController, bindingController);
+        mValue = initialValue;
+    }
+
+    public SimpleObservableDoubleProperty(EventController eventController,
+                                              PropertyBindingController<Double> bindingController,
+                                              double initialValue) {
         super(eventController, bindingController);
         mValue = initialValue;
     }

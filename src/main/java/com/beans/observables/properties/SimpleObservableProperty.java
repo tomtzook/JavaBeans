@@ -2,6 +2,7 @@ package com.beans.observables.properties;
 
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.EventController;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -22,6 +23,13 @@ public class SimpleObservableProperty<T> extends ObservablePropertyBase<T> {
     private T mValue;
 
     public SimpleObservableProperty(ObservableEventController<T> eventController,
+                                    PropertyBindingController<T> bindingController,
+                                    T initialValue) {
+        super(eventController, bindingController);
+        mValue = initialValue;
+    }
+
+    public SimpleObservableProperty(EventController eventController,
                                     PropertyBindingController<T> bindingController,
                                     T initialValue) {
         super(eventController, bindingController);

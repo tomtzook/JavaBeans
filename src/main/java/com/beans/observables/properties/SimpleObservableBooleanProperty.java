@@ -2,6 +2,7 @@ package com.beans.observables.properties;
 
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.EventController;
 
 /**
  * <p>
@@ -19,6 +20,13 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
     public SimpleObservableBooleanProperty(ObservableEventController<Boolean> eventController,
                                            PropertyBindingController<Boolean> bindingController,
                                            boolean initialValue) {
+        super(eventController, bindingController);
+        mValue = initialValue;
+    }
+
+    public SimpleObservableBooleanProperty(EventController eventController,
+                                        PropertyBindingController<Boolean> bindingController,
+                                              boolean initialValue) {
         super(eventController, bindingController);
         mValue = initialValue;
     }

@@ -6,6 +6,7 @@ import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.EventController;
 
 import java.util.Optional;
 
@@ -37,6 +38,11 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
 
     protected ObservablePropertyBase(ObservableEventController<T> eventController, PropertyBindingController<T> bindingController) {
         mEventController = eventController;
+        mBindingController = bindingController;
+    }
+
+    protected ObservablePropertyBase(EventController eventController, PropertyBindingController<T> bindingController) {
+        mEventController = new ObservableEventController.Impl<>(eventController, this);
         mBindingController = bindingController;
     }
 

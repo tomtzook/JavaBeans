@@ -3,6 +3,7 @@ package com.beans.observables.properties.atomic;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableBooleanProperty;
+import com.notifier.EventController;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -26,6 +27,13 @@ public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
     public AtomicObservableBooleanProperty(ObservableEventController<Boolean> eventController,
                                            PropertyBindingController<Boolean> bindingController,
                                            boolean initialValue) {
+        super(eventController, bindingController);
+        mValue = new AtomicBoolean(initialValue);
+    }
+
+    public AtomicObservableBooleanProperty(EventController eventController,
+                                              PropertyBindingController<Boolean> bindingController,
+                                              boolean initialValue) {
         super(eventController, bindingController);
         mValue = new AtomicBoolean(initialValue);
     }

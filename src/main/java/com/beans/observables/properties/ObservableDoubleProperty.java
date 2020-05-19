@@ -3,6 +3,7 @@ package com.beans.observables.properties;
 import com.beans.DoubleProperty;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.EventController;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -27,6 +28,11 @@ public abstract class ObservableDoubleProperty extends ObservablePropertyBase<Do
 
     protected ObservableDoubleProperty(ObservableEventController<Double> eventController,
                                        PropertyBindingController<Double> bindingController) {
+        super(eventController, bindingController);
+    }
+
+    protected ObservableDoubleProperty(EventController eventController,
+                                        PropertyBindingController<Double> bindingController) {
         super(eventController, bindingController);
     }
 

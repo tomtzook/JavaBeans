@@ -3,6 +3,7 @@ package com.beans.observables.properties;
 import com.beans.IntProperty;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.EventController;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -30,6 +31,10 @@ public abstract class ObservableIntProperty extends ObservablePropertyBase<Integ
         super(eventController, bindingController);
     }
 
+    protected ObservableIntProperty(EventController eventController,
+                                        PropertyBindingController<Integer> bindingController) {
+        super(eventController, bindingController);
+    }
     /**
      * {@inheritDoc}
      * <p>
