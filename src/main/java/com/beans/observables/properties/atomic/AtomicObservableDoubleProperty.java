@@ -49,6 +49,11 @@ public class AtomicObservableDoubleProperty extends ObservableDoubleProperty {
     }
 
     @Override
+    protected void setInternalDirect(Double value) {
+        mValue.set(Double.doubleToLongBits(value));
+    }
+
+    @Override
     protected void setInternal(double value) {
         long newLongValue = Double.doubleToLongBits(value);
         long oldLongValue = mValue.getAndSet(newLongValue);

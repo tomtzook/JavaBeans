@@ -9,7 +9,7 @@ public interface BindingController<T> {
     boolean isBound();
 
     void bind(ObservableValue<T> observableValue);
-    void unbind();
+    Optional<ObservableBinding<T>> unbind();
 
     Optional<ObservableBinding<T>> getBinding();
 }

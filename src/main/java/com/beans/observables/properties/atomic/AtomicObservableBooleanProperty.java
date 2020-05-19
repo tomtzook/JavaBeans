@@ -44,6 +44,11 @@ public class AtomicObservableBooleanProperty extends ObservableBooleanProperty {
     }
 
     @Override
+    protected void setInternalDirect(Boolean value) {
+        mValue.set(value);
+    }
+
+    @Override
     public void setInternal(boolean value) {
         boolean oldValue = mValue.getAndSet(value);
         if (oldValue != value) {

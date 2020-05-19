@@ -37,6 +37,11 @@ public class SimpleObservableIntProperty extends ObservableIntProperty {
     }
 
     @Override
+    protected void setInternalDirect(Integer value) {
+        mValue = value;
+    }
+
+    @Override
     public void setInternal(int value) {
         if (mValue != value) {
             int oldValue = mValue;

@@ -49,6 +49,11 @@ public class AtomicObservableLongProperty extends ObservableLongProperty {
     }
 
     @Override
+    protected void setInternalDirect(Long value) {
+        mValue.set(value);
+    }
+
+    @Override
     protected void setInternal(long value) {
         long oldValue = mValue.getAndSet(value);
         if (oldValue != value) {

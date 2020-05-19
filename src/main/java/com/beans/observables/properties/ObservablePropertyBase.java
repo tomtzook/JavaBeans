@@ -68,7 +68,11 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
 
     @Override
     public final void unbind() {
-        mBindingController.unbind();
+        Optional<ObservableBinding<T>> optional = mBindingController.unbind();
+        if (optional.isPresent()) {
+            ObservableBinding<T> binding = optional.get();
+            setInternalDirect(binding.get());
+        }
     }
 
     /**
@@ -105,12 +109,16 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
         if (isBound()) {
             Optional<ObservableBinding<T>> bindingOptional = getBound();
             if (bindingOptional.isPresent()) {
-                return Optional.of(bindingOptional.get().get());
+                T value = bindingOptional.get().get();
+                setInternalDirect(value);
+                return Optional.of(value);
             }
         }
 
         return Optional.empty();
     }
+
+    protected abstract void setInternalDirect(T value);
 
     @Override
     public String toString() {

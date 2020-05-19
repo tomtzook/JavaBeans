@@ -102,6 +102,18 @@ public class ObservablePropertyImplTest {
         verify(observableProperty, times(1)).set(eq(value));
     }
 
+    @ParameterizedTest(name = "{0}.bindBidirectional(...).unbind().get()")
+    @MethodSource("sameValueWithProperty")
+    public void bindBidirectionalUnbindGet_withObservable_valueUpdatedAfterUnbind(ObservableProperty property, Object currentValue, Object value, ObservableProperty observableProperty) throws Exception {
+        property.bindBidirectional(observableProperty);
+        property.unbind();
+
+        Object getValue = property.get();
+
+        assertThat(getValue, equalTo(value));
+        assertThat(getValue, not(equalTo(currentValue)));
+    }
+
     public static Stream<Arguments> newValueWithListenerArguments() {
         return implementations().stream()
                 .map((func) -> {

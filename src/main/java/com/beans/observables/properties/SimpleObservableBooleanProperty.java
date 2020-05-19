@@ -37,6 +37,11 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
     }
 
     @Override
+    protected void setInternalDirect(Boolean value) {
+        mValue = value;
+    }
+
+    @Override
     public void setInternal(boolean value) {
         if (mValue != value) {
             boolean oldValue = mValue;

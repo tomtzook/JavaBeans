@@ -42,6 +42,11 @@ public class SimpleObservableProperty<T> extends ObservablePropertyBase<T> {
     }
 
     @Override
+    protected void setInternalDirect(T value) {
+        mValue = value;
+    }
+
+    @Override
     public void set(T value) {
         if (!setIfBound(value)) {
             if (!Objects.equals(mValue, value)) {

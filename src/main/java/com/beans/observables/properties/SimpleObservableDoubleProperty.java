@@ -37,6 +37,11 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
     }
 
     @Override
+    protected void setInternalDirect(Double value) {
+        mValue = value;
+    }
+
+    @Override
     public void setInternal(double value) {
         if (mValue != value) {
             double oldValue = mValue;

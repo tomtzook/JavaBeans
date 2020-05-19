@@ -34,8 +34,8 @@ public class AtomicPropertyBindingController<T> implements PropertyBindingContro
     }
 
     @Override
-    public void unbind() {
-        mBinding.set(null);
+    public Optional<ObservableBinding<T>> unbind() {
+        return Optional.ofNullable(mBinding.getAndSet(null));
     }
 
     @Override

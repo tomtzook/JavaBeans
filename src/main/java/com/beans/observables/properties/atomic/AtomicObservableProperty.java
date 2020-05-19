@@ -49,6 +49,11 @@ public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
     }
 
     @Override
+    protected void setInternalDirect(T value) {
+        mValue.set(value);
+    }
+
+    @Override
     public void set(T value) {
         if (!setIfBound(value)) {
             T oldValue = mValue.getAndSet(value);

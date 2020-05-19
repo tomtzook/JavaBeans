@@ -45,6 +45,11 @@ public class AtomicObservableIntProperty extends ObservableIntProperty {
     }
 
     @Override
+    protected void setInternalDirect(Integer value) {
+        mValue.set(value);
+    }
+
+    @Override
     protected void setInternal(int value) {
         int oldValue = mValue.getAndSet(value);
         if (oldValue != value) {

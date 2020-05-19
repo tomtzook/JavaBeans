@@ -37,6 +37,11 @@ public class SimpleObservableLongProperty extends ObservableLongProperty {
     }
 
     @Override
+    protected void setInternalDirect(Long value) {
+        mValue = value;
+    }
+
+    @Override
     public void setInternal(long value) {
         if (mValue != value) {
             long oldValue = mValue;
