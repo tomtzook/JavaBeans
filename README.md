@@ -25,11 +25,26 @@ JavaBeans provides the following implementations for `Property`, each implementa
 
 ### Observables
 
-An `ObservableValue` is a value which can be observed for changes using listeners.
+An `ObservableValue` is a value which can be observed for changes using listeners. Based
+on the `java.util.Supplier` interface.
+
 An `ObservableProperty` is a property which can be observed for changed using listeners.
+Based on the `Property` and `ObservableValue` interfaces.
 
-Both `ObservableValue` and `ObservableProperty` have primitive specializations.
+Both have primitive specializations for types: `long`, `int`, `boolean`, `double`.
 
-There are several implementations provided:
-- Simple: a basic variable value which can be read from and written to.
-- Atomic: a thread-safe implementation.
+Creation of such properties should be done using `ObservableFactory`.
+
+#### Listeners
+
+Users may register `ChangeListener`s to an _observable_.
+Any changes to that _observable_'s value will
+cause an invocation of the listener with `ChangeEvent`.
+
+```Java
+ObservableIntProperty prop = ....
+prop.addChangeListener((e)-> {
+    System.out.println("New value: " + e.getNewValue())
+});
+```
+
