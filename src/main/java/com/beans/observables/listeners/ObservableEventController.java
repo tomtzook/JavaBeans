@@ -30,7 +30,7 @@ public interface ObservableEventController<T> {
 
         @Override
         public void removeListener(ChangeListener<? super T> listener) {
-            throw new UnsupportedOperationException("not supported yet");
+            mEventController.unregisterListener(listener);
         }
 
         @Override
