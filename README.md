@@ -48,3 +48,53 @@ prop.addChangeListener((e)-> {
 });
 ```
 
+#### Binding
+
+Binding `Observable`s will connect them. It is only possible between 2 `Observable`s with 
+similar types. There are 2 types of bindings.
+
+- Single-Directional binding, `o1.bind(o2)` will connect the value of observable
+`o1` to `o2`, such that any changes to `o2` will change the value of `o1`. However,
+changing the value of `o1` directly, with `setValue` will not be allowed, causing
+a `RuntimeException`.
+```Java
+ObservableIntProperty prop1 = ...;
+prop1.set(2);
+ObservableIntProperty prop2 = ...;
+prop2.set(10);
+
+System.out.println(prop1.get()); // returns 2
+
+prop1.bind(prop2);
+System.out.println(prop1.get()); // returns 10
+
+prop2.set(100);
+System.out.println(prop1.get()); // returns 100
+System.out.println(prop2.get()); // returns 100
+
+prop1.set(5); // throws IllegalStateException
+```
+
+- Bi-Directional binding, `o1.bindBidirectional(o2)` will connect the value of observable
+`o1` to `o2`, such that any changes to `o2` will change the value of `o1`, and changes to `o1`
+will change `o2`. 
+```Java
+ObservableIntProperty prop1 = ...;
+prop1.set(2);
+ObservableIntProperty prop2 = ...;
+prop2.set(10);
+
+System.out.println(prop1.get()); // returns 2
+
+prop1.bindBidirectional(prop2);
+System.out.println(prop1.get()); // returns 10
+
+prop2.set(100);
+System.out.println(prop1.get()); // returns 100
+System.out.println(prop2.get()); // returns 100
+
+prop1.set(5);
+System.out.println(prop1.get()); // returns 5
+System.out.println(prop2.get()); // returns 5
+```
+    
