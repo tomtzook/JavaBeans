@@ -97,16 +97,17 @@ public class ObservablePropertyImplTest {
 
     @ParameterizedTest(name = "{0}.bindBidirectional(...).get()")
     @MethodSource("listenerUpdateInBind")
-    public void bindBidirectional_withObservableAndListener_callsListener(ObservableProperty property, Object currentValue, Object value, ObservableProperty observableProperty, ChangeListener listener) throws Exception {
+    public void bindBidirectionalAndSet_withObservableAndListener_callsListener(ObservableProperty property, Object currentValue, Object value, ObservableProperty observableProperty, ChangeListener listener) throws Exception {
         property.bindBidirectional(observableProperty);
+        observableProperty.set(currentValue);
 
         ArgumentCaptor<ChangeEvent> captor = ArgumentCaptor.forClass(ChangeEvent.class);
         verify(listener, times(1)).onChange(captor.capture());
 
         ChangeEvent event = captor.getValue();
         assertThat(event.getObservableValue(), equalTo(property));
-        assertThat(event.getNewValue(), equalTo(value));
-        assertThat(event.getOldValue(), not(equalTo(value)));
+        assertThat(event.getNewValue(), equalTo(currentValue));
+        assertThat(event.getOldValue(), not(equalTo(currentValue)));
     }
 
     @ParameterizedTest(name = "{0}.bindBidirectional(...).set(...)")
