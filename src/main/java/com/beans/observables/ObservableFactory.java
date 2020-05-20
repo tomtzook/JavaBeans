@@ -16,7 +16,10 @@ import com.beans.observables.properties.atomic.AtomicObservableDoubleProperty;
 import com.beans.observables.properties.atomic.AtomicObservableIntProperty;
 import com.beans.observables.properties.atomic.AtomicObservableLongProperty;
 import com.beans.observables.properties.atomic.AtomicObservableProperty;
+import com.notifier.Controllers;
 import com.notifier.EventController;
+
+import java.util.concurrent.ExecutorService;
 
 public class ObservableFactory {
 
@@ -24,6 +27,10 @@ public class ObservableFactory {
 
     public ObservableFactory(EventController eventController) {
         mEventController = eventController;
+    }
+
+    public ObservableFactory(ExecutorService executorService) {
+        this(Controllers.newExecutorBasedController(executorService));
     }
 
     public <T> ObservableProperty<T> newProperty(T initialValue) {
