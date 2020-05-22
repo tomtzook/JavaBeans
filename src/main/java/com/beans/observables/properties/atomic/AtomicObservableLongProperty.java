@@ -5,7 +5,6 @@ import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservableLongProperty;
 import com.notifier.EventController;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -21,6 +20,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * <p>
  *     In some cases, {@link AtomicLong} may old a lock, specifically, if the operating
  *     system does not support 64-bit operations.
+ * </p>
+ * <p>
+ *     Depending on the {@link ObservableEventController} used, it is possible
+ *     that changes from multiple threads won't dispatch in the correct order.
  * </p>
  *
  * @since JavaBeans 1.0

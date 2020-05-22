@@ -6,7 +6,6 @@ import com.beans.observables.properties.ObservableIntProperty;
 import com.notifier.EventController;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * <p>
@@ -17,6 +16,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * <p>
  *     This implementation uses the <em>java.util.concurrent.atomic</em> package, to provide
  *     a lock-free, atomic read and write operations.
+ * </p>
+ * <p>
+ *     Depending on the {@link ObservableEventController} used, it is possible
+ *     that changes from multiple threads won't dispatch in the correct order.
  * </p>
  *
  * @since JavaBeans 1.0

@@ -7,7 +7,6 @@ import com.notifier.EventController;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -19,6 +18,10 @@ import java.util.concurrent.atomic.AtomicReference;
  * <p>
  *     This implementation uses the <em>java.util.concurrent.atomic</em> package, to provide
  *     a lock-free, atomic read and write operations.
+ * </p>
+ * <p>
+ *     Depending on the {@link ObservableEventController} used, it is possible
+ *     that changes from multiple threads won't dispatch in the correct order.
  * </p>
  *
  * @param <T> type of the property data.
