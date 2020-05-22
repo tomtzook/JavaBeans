@@ -95,25 +95,21 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
     }
 
     protected final boolean setIfBound(T value) {
-        if (isBound()) {
-            Optional<ObservableBinding<T>> bindingOptional = getBound();
-            if (bindingOptional.isPresent()) {
-                bindingOptional.get().set(value);
-                return true;
-            }
+        Optional<ObservableBinding<T>> bindingOptional = getBound();
+        if (bindingOptional.isPresent()) {
+            bindingOptional.get().set(value);
+            return true;
         }
 
         return false;
     }
 
     protected final Optional<T> getIfBound() {
-        if (isBound()) {
-            Optional<ObservableBinding<T>> bindingOptional = getBound();
-            if (bindingOptional.isPresent()) {
-                T value = bindingOptional.get().get();
-                setInternalDirect(value);
-                return Optional.of(value);
-            }
+        Optional<ObservableBinding<T>> bindingOptional = getBound();
+        if (bindingOptional.isPresent()) {
+            T value = bindingOptional.get().get();
+            setInternalDirect(value);
+            return Optional.of(value);
         }
 
         return Optional.empty();
