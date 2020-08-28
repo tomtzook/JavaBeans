@@ -19,6 +19,7 @@ import com.beans.observables.properties.atomic.AtomicObservableProperty;
 import com.notifier.Controllers;
 import com.notifier.EventController;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 public class ObservableFactory {
@@ -27,6 +28,37 @@ public class ObservableFactory {
 
     public ObservableFactory(EventController eventController) {
         mEventController = eventController;
+    }
+
+    /**
+     * Creates a new factory whose properties will use the given executor for event
+     * dispatching. i.e., listeners will be dispatching via the given executor.
+     * If the executor is synchronized, than listeners will be dispatched from the
+     * thread which changes the value ({@link ObservableProperty#set(Object)}).
+     * <p>
+     *     Equivalent to:
+     * </p>
+     * <pre>
+     *     new ObservableFactory(Controllers.newExecutorBasedController(executor))
+     * </pre>
+     */
+    public ObservableFactory(Executor executor) {
+        this(Controllers.newExecutorBasedController(executor));
+    }
+
+    /**
+     * Creates a new factory whose properties will use synchronized event
+     * dispatching. i.e., listeners will be dispatching in the same thread
+     * which changes the value ({@link ObservableProperty#set(Object)}).
+     * <p>
+     *     Equivalent to:
+     * </p>
+     * <pre>
+     *     new ObservableFactory(Controllers.newSyncExecutionController())
+     * </pre>
+     */
+    public ObservableFactory() {
+        this(Controllers.newSyncExecutionController());
     }
 
     public ObservableFactory(ExecutorService executorService) {
