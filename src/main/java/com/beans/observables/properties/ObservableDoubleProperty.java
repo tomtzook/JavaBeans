@@ -1,6 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.DoubleProperty;
+import com.beans.observables.ObservableDoubleValue;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.notifier.EventController;
@@ -24,7 +25,8 @@ import java.util.Optional;
  *
  * @since JavaBeans 1.0
  */
-public abstract class ObservableDoubleProperty extends ObservablePropertyBase<Double> implements DoubleProperty {
+public abstract class ObservableDoubleProperty extends ObservablePropertyBase<Double>
+        implements ObservableDoubleValue, DoubleProperty {
 
     protected ObservableDoubleProperty(ObservableEventController<Double> eventController,
                                        PropertyBindingController<Double> bindingController) {

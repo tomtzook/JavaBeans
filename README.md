@@ -129,3 +129,25 @@ System.out.println(prop2.get()); // returns 5
 ```
 
 While bound, properties will still invoke listeners on changes.
+
+#### Observable From Supplier
+
+Using `PollingObserableFactory`, it is possible to create `ObservableValue`s out of `Supplier`s 
+(including specializations).
+
+Create the factory first:
+```Java
+ObserableFactory observableFactory = ...;
+Consumer<Runnable> poller = ...;
+
+PollingObserableFactory factory = new PollingObserableFactory(observableFactory, poller); 
+```
+
+And simply use `factory.from` to create the `ObservableValue`. Now, it will be possible to listen
+to changes of the `Supplier` and bind it to other observables.
+
+The `poller` dependency will have to receive a `Runnable` task and execute it periodically. This period
+determines the update period for the created `ObservableValue`s.
+
+For easier creation, use the `ScheduledExecutorService` constructor overload, which will use
+the given executor service for polling.

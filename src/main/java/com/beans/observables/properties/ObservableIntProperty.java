@@ -1,6 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.IntProperty;
+import com.beans.observables.ObservableIntValue;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.notifier.EventController;
@@ -24,7 +25,8 @@ import java.util.Optional;
  *
  * @since JavaBeans 1.0
  */
-public abstract class ObservableIntProperty extends ObservablePropertyBase<Integer> implements IntProperty {
+public abstract class ObservableIntProperty extends ObservablePropertyBase<Integer>
+        implements ObservableIntValue, IntProperty {
 
     protected ObservableIntProperty(ObservableEventController<Integer> eventController,
                                     PropertyBindingController<Integer> bindingController) {

@@ -1,6 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.LongProperty;
+import com.beans.observables.ObservableLongValue;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.notifier.EventController;
@@ -24,7 +25,8 @@ import java.util.Optional;
  *
  * @since JavaBeans 1.0
  */
-public abstract class ObservableLongProperty extends ObservablePropertyBase<Long> implements LongProperty {
+public abstract class ObservableLongProperty extends ObservablePropertyBase<Long>
+        implements ObservableLongValue, LongProperty {
 
     protected ObservableLongProperty(ObservableEventController<Long> eventController,
                                      PropertyBindingController<Long> bindingController) {
