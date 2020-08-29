@@ -20,7 +20,6 @@ import com.notifier.Controllers;
 import com.notifier.EventController;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 
 public class ObservableFactory {
 
@@ -59,10 +58,6 @@ public class ObservableFactory {
      */
     public ObservableFactory() {
         this(Controllers.newSyncExecutionController());
-    }
-
-    public ObservableFactory(ExecutorService executorService) {
-        this(Controllers.newExecutorBasedController(executorService));
     }
 
     public <T> ObservableProperty<T> newProperty(T initialValue) {
