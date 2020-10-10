@@ -8,6 +8,7 @@ import com.beans.observables.listeners.ChangeListener;
 import com.beans.observables.listeners.ObservableEventController;
 import com.notifier.EventController;
 
+import java.lang.ref.WeakReference;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -124,15 +125,20 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
 
     private static class BoundChangeHandler<T> implements Consumer<ChangeEvent<T>> {
 
-        private final ObservablePropertyBase<T> mPropertyBase;
+        private final WeakReference<ObservablePropertyBase<T>> mPropertyBase;
 
         private BoundChangeHandler(ObservablePropertyBase<T> propertyBase) {
-            mPropertyBase = propertyBase;
+            mPropertyBase = new WeakReference<>(propertyBase);
         }
 
         @Override
         public void accept(ChangeEvent<T> event) {
-            mPropertyBase.fireValueChangedEvent(event.getOldValue(), event.getNewValue());
+            ObservablePropertyBase<T> propertyBase = mPropertyBase.get();
+            if (propertyBase == null) {
+                return;
+            }
+
+            propertyBase.fireValueChangedEvent(event.getOldValue(), event.getNewValue());
         }
     }
 }
