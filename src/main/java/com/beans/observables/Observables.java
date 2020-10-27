@@ -13,13 +13,6 @@ public class Observables {
     private static ObservableFactory sFactory;
     private static PollingObservableFactory sPollingFactory;
 
-    public synchronized static void setExecutorService(ScheduledExecutorService executorService) {
-        if (sExecutorService != null) {
-            throw new IllegalStateException("already initialized");
-        }
-        sExecutorService = executorService;
-    }
-
     public static ObservableFactory factory() {
          if (sFactory == null) {
              synchronized (Observables.class) {
@@ -56,6 +49,13 @@ public class Observables {
             throw new IllegalStateException("already initialized");
         }
         sPollingFactory = pollingFactory;
+    }
+
+    public synchronized static void setExecutorService(ScheduledExecutorService executorService) {
+        if (sExecutorService != null) {
+            throw new IllegalStateException("already initialized");
+        }
+        sExecutorService = executorService;
     }
 
     private static ScheduledExecutorService executorService() {

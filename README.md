@@ -138,16 +138,49 @@ Using `PollingObserableFactory`, it is possible to create `ObservableValue`s out
 Create the factory first:
 ```Java
 ObserableFactory observableFactory = ...;
-Consumer<Runnable> poller = ...;
+ScheduledExecutorService executorService = ...;
+int pollingTimeMs = 25;
 
-PollingObserableFactory factory = new PollingObserableFactory(observableFactory, poller); 
+PollingObserableFactory factory = new PollingObserableFactory(observableFactory, executorService, pollingTimeMs); 
 ```
 
 And simply use `factory.from` to create the `ObservableValue`. Now, it will be possible to listen
 to changes of the `Supplier` and bind it to other observables.
 
-The `poller` dependency will have to receive a `Runnable` task and execute it periodically. This period
-determines the update period for the created `ObservableValue`s.
+```Java
+Supplier<String> supplier = ...;
+ObservableValue<String> observable = factory.from(supplier);
+```
 
-For easier creation, use the `ScheduledExecutorService` constructor overload, which will use
-the given executor service for polling.
+The `ScheduledExecutorService` will be used to poll updates from the supplier and test for changes in the value,
+making it observable. The `pollingTimeMs` is the period for polling the supplier.
+
+#### Global
+
+For easier work with the observable factories, use the `Observables` class. This class will
+automatically create the factories and provide access to them:
+
+```Java
+ObservableIntProperty prop = Observables.factory().newIntProperty();
+
+Supplier<Object> supplier = ...;
+ObserableValue<Object> observable = Observables.pollingFactory().from(supplier);
+```
+
+The created factories will use a `ScheduledExecutorService` created specifically for dispatching events
+and for polling suppliers. This executor service will be terminated automatically using a shutdown hook.
+
+It is also possible to configure the factories manually instead of using the automatically created ones. This should 
+be done before any usage or access to the factories:
+```Java
+ObservableFactory factory = ...;
+Obserables.setFactory(factory);
+
+ObservablePollingFactory pollingFactory = ...;
+Obserables.setPollingFactory(pollingFactory);
+```
+
+It is also possible to configure the `ScheduledExecutorService` that will be used by the factories,
+using `setExecutorService`. Doing so will make the factories use that executor service, but should be done
+before any usage/access to the factories. The executor service will not be terminated automatically, and
+this must be the responsibility of the user providing the instance.
