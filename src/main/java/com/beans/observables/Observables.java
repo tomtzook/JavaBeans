@@ -17,7 +17,7 @@ public class Observables {
          if (sFactory == null) {
              synchronized (Observables.class) {
                  if (sFactory == null) {
-                     sFactory = new ObservableFactory();
+                     sFactory = new ObservableFactory(executorService());
                  }
              }
          }
