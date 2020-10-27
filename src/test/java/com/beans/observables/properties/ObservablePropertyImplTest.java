@@ -205,46 +205,26 @@ public class ObservablePropertyImplTest {
     private static List<Function<ChangeListener, Impl>> implementations() {
         EventController eventController = Controllers.newSyncExecutionController();
         return Arrays.asList(
-                (l)-> new Impl(new SimpleObservableProperty<>(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Object.class),
-                (l)-> new Impl(new SimpleObservableBooleanProperty(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Boolean.class),
-                (l)-> new Impl(new SimpleObservableDoubleProperty(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Double.class),
-                (l)-> new Impl(new SimpleObservableIntProperty(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Integer.class),
-                (l)-> new Impl(new SimpleObservableLongProperty(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Long.class),
-                (l)-> new Impl(new AtomicObservableProperty(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Object.class),
-                (l)-> new Impl(new AtomicObservableBooleanProperty(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Boolean.class),
-                (l)-> new Impl(new AtomicObservableDoubleProperty(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Double.class),
-                (l)-> new Impl(new AtomicObservableIntProperty(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Integer.class),
-                (l)-> new Impl(new AtomicObservableLongProperty(
-                        new ObservableEventController.Impl<>(eventController, null, l),
-                        new AtomicPropertyBindingController<>()),
-                        Long.class)
+                (l)-> new Impl(new SimpleObservableProperty<>(eventController),
+                        Object.class, l),
+                (l)-> new Impl(new SimpleObservableBooleanProperty(eventController),
+                        Boolean.class, l),
+                (l)-> new Impl(new SimpleObservableDoubleProperty(eventController),
+                        Double.class, l),
+                (l)-> new Impl(new SimpleObservableIntProperty(eventController),
+                        Integer.class, l),
+                (l)-> new Impl(new SimpleObservableLongProperty(eventController),
+                        Long.class, l),
+                (l)-> new Impl(new AtomicObservableProperty(eventController),
+                        Object.class, l),
+                (l)-> new Impl(new AtomicObservableBooleanProperty(eventController),
+                        Boolean.class, l),
+                (l)-> new Impl(new AtomicObservableDoubleProperty(eventController),
+                        Double.class, l),
+                (l)-> new Impl(new AtomicObservableIntProperty(eventController),
+                        Integer.class, l),
+                (l)-> new Impl(new AtomicObservableLongProperty(eventController),
+                        Long.class, l)
         );
     }
 
@@ -267,9 +247,10 @@ public class ObservablePropertyImplTest {
         final Class<?> mInnerType;
 
 
-        Impl(ObservableProperty property, Class<?> innerType) {
+        Impl(ObservableProperty property, Class<?> innerType, ChangeListener listener) {
             mProperty = property;
             mInnerType = innerType;
+            property.addChangeListener(listener);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.beans.observables.properties.atomic;
 
+import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
 import com.beans.observables.properties.ObservablePropertyBase;
@@ -49,6 +50,14 @@ public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
     public AtomicObservableProperty(ObservableEventController<T> eventController,
                                     PropertyBindingController<T> bindingController) {
         this(eventController, bindingController, null);
+    }
+
+    public AtomicObservableProperty(EventController eventController, T initialValue) {
+        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
+    }
+
+    public AtomicObservableProperty(EventController eventController) {
+        this(eventController, null);
     }
 
     @Override

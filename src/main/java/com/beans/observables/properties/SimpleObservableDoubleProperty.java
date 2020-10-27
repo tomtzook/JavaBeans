@@ -1,7 +1,9 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.Controllers;
 import com.notifier.EventController;
 
 /**
@@ -13,7 +15,7 @@ import com.notifier.EventController;
  *
  * @since JavaBeans 1.0
  */
-public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
+public class SimpleObservableDoubleProperty extends ObservableDoublePropertyBase {
 
     private double mValue;
 
@@ -34,6 +36,22 @@ public class SimpleObservableDoubleProperty extends ObservableDoubleProperty {
     public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController,
                                           PropertyBindingController<Double> bindingController) {
         this(eventController, bindingController, 0.0);
+    }
+
+    public SimpleObservableDoubleProperty(EventController eventController, double initialValue) {
+        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
+    }
+
+    public SimpleObservableDoubleProperty(EventController eventController) {
+        this(eventController, 0.0);
+    }
+
+    public SimpleObservableDoubleProperty(double initialValue) {
+        this(Controllers.newSyncExecutionController(), initialValue);
+    }
+
+    public SimpleObservableDoubleProperty() {
+        this(0.0);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class ListenerPredicate implements Predicate<Event> {
         ObservableValue<?> observable = mObservable.get();
 
         if (observable == null) {
-            return true;
+            return false;
         }
 
         return event instanceof ChangeEvent &&

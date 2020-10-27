@@ -1,7 +1,9 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.Controllers;
 import com.notifier.EventController;
 
 import java.util.Objects;
@@ -39,6 +41,22 @@ public class SimpleObservableProperty<T> extends ObservablePropertyBase<T> {
     public SimpleObservableProperty(ObservableEventController<T> eventController,
                                     PropertyBindingController<T> bindingController) {
         this(eventController, bindingController, null);
+    }
+
+    public SimpleObservableProperty(EventController eventController, T initialValue) {
+        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
+    }
+
+    public SimpleObservableProperty(EventController eventController) {
+        this(eventController, null);
+    }
+
+    public SimpleObservableProperty(T initialValue) {
+        this(Controllers.newSyncExecutionController(), initialValue);
+    }
+
+    public SimpleObservableProperty() {
+        this((T) null);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ObservableEventController;
+import com.notifier.Controllers;
 import com.notifier.EventController;
 
 /**
@@ -13,7 +15,7 @@ import com.notifier.EventController;
  *
  * @since JavaBeans 1.0
  */
-public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
+public class SimpleObservableBooleanProperty extends ObservableBooleanPropertyBase {
 
     private boolean mValue;
 
@@ -34,6 +36,23 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanProperty {
     public SimpleObservableBooleanProperty(ObservableEventController<Boolean> eventController,
                                            PropertyBindingController<Boolean> bindingController) {
         this(eventController, bindingController, false);
+    }
+
+
+    public SimpleObservableBooleanProperty(EventController eventController, boolean initialValue) {
+        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
+    }
+
+    public SimpleObservableBooleanProperty(EventController eventController) {
+        this(eventController, false);
+    }
+
+    public SimpleObservableBooleanProperty(boolean initialValue) {
+        this(Controllers.newSyncExecutionController(), initialValue);
+    }
+
+    public SimpleObservableBooleanProperty() {
+        this(false);
     }
 
     @Override
