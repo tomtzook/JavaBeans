@@ -8,10 +8,10 @@ public class Observables {
 
     private Observables() {}
 
-    private static ScheduledExecutorService sExecutorService;
+    private static volatile ScheduledExecutorService sExecutorService;
 
-    private static ObservableFactory sFactory;
-    private static PollingObservableFactory sPollingFactory;
+    private static volatile ObservableFactory sFactory;
+    private static volatile PollingObservableFactory sPollingFactory;
 
     public static ObservableFactory factory() {
          if (sFactory == null) {
