@@ -11,6 +11,7 @@ import com.notifier.EventController;
 import java.lang.ref.WeakReference;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * <p>
@@ -46,6 +47,11 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
     protected ObservablePropertyBase(EventController eventController, PropertyBindingController<T> bindingController) {
         mEventController = new ObservableEventController.Impl<>(eventController, this);
         mBindingController = bindingController;
+    }
+
+    private ObservablePropertyBase() {
+        mEventController = null;
+        mBindingController = null;
     }
 
     @Override
@@ -114,6 +120,29 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public <T2> ObservableValue<T2> as(Function<T, T2> convertor) {
+        ObservableValue<T2> other = new SimpleObservableProperty<>();
+        other.bind(new ObservablePropertyBase<T2>() {
+            @Override
+            protected void setInternalDirect(T2 value) {
+                throw new UnsupportedOperationException("cannot set converted value");
+            }
+
+            @Override
+            public void set(T2 value) {
+                throw new UnsupportedOperationException("cannot set converted value");
+            }
+
+            @Override
+            public T2 get() {
+                return convertor.apply(ObservablePropertyBase.this.get());
+            }
+        });
+
+        return other;
     }
 
     protected abstract void setInternalDirect(T value);

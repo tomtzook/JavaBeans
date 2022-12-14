@@ -3,6 +3,7 @@ package com.beans.observables;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -43,4 +44,6 @@ public interface ObservableValue<T> extends Supplier<T> {
 
     void bind(ObservableValue<T> observableValue);
     void unbind();
+
+    <T2> ObservableValue<T2> as(Function<T, T2> convertor);
 }
