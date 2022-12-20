@@ -34,14 +34,14 @@ import java.util.function.Consumer;
  *     Base for {@link ObservableProperty} implementations.
  * </p>
  * <p>
- *     Provides implementations for {@link #addChangeListener(ChangeListener)}, {@link #removeChangeListener(ChangeListener)}.
+ *     Provides implementations for {@link #addChangeListener(ChangeListener)}.
  *     Provides {@link #fireValueChangedEvent(Object, Object)} for extending classes to fire changed event.
  * </p>
  * <p>
  *     This class can be <b>thread-safe</b> by defining so in the constructor.
  *
  *     The thread safety manifest in the manner of accessing the list of added
- *     listener, making {@link #addChangeListener(ChangeListener)} and {@link #removeChangeListener(ChangeListener)}
+ *     listener, making {@link #addChangeListener(ChangeListener)}
  *     <b>thread-safe</b>. But, although {@link #fireValueChangedEvent(Object, Object)} is safe
  *     in accessing the listener list, it <b>does not</b> limit threads from firing the event multiple times concurrently.
  * </p>
