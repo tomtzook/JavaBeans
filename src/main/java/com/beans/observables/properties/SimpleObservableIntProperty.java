@@ -19,39 +19,17 @@ public class SimpleObservableIntProperty extends ObservableIntPropertyBase {
 
     private int mValue;
 
-    public SimpleObservableIntProperty(ObservableEventController<Integer> eventController,
-                                       PropertyBindingController<Integer> bindingController,
+    public SimpleObservableIntProperty(Object bean,
+                                       EventController eventController,
                                        int initialValue) {
-        super(eventController, bindingController);
+        super(bean, eventController);
         mValue = initialValue;
     }
 
     public SimpleObservableIntProperty(EventController eventController,
-                                              PropertyBindingController<Integer> bindingController,
-                                              int initialValue) {
-        super(eventController, bindingController);
+                                       int initialValue) {
+        super(eventController);
         mValue = initialValue;
-    }
-
-    public SimpleObservableIntProperty(ObservableEventController<Integer> eventController,
-                                       PropertyBindingController<Integer> bindingController) {
-        this(eventController, bindingController, 0);
-    }
-
-    public SimpleObservableIntProperty(EventController eventController, int initialValue) {
-        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
-    }
-
-    public SimpleObservableIntProperty(EventController eventController) {
-        this(eventController, 0);
-    }
-
-    public SimpleObservableIntProperty(int initialValue) {
-        this(Controllers.newSyncExecutionController(), initialValue);
-    }
-
-    public SimpleObservableIntProperty() {
-        this(0);
     }
 
     @Override

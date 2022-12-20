@@ -10,14 +10,24 @@ import java.util.Optional;
 public abstract class ObservableDoublePropertyBase extends ObservablePropertyBase<Double>
         implements ObservableDoubleProperty {
 
+    protected ObservableDoublePropertyBase(Object bean,
+                                           ObservableEventController<Double> eventController,
+                                           PropertyBindingController<Double> bindingController) {
+        super(bean, eventController, bindingController);
+    }
+
     protected ObservableDoublePropertyBase(ObservableEventController<Double> eventController,
-                                       PropertyBindingController<Double> bindingController) {
+                                           PropertyBindingController<Double> bindingController) {
         super(eventController, bindingController);
     }
 
-    protected ObservableDoublePropertyBase(EventController eventController,
-                                       PropertyBindingController<Double> bindingController) {
-        super(eventController, bindingController);
+    protected ObservableDoublePropertyBase(Object bean,
+                                           EventController eventController) {
+        super(bean, eventController);
+    }
+
+    protected ObservableDoublePropertyBase(EventController eventController) {
+        super(eventController);
     }
 
     /**

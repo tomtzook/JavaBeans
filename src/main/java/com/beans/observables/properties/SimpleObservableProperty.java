@@ -24,39 +24,17 @@ public class SimpleObservableProperty<T> extends ObservablePropertyBase<T> {
 
     private T mValue;
 
-    public SimpleObservableProperty(ObservableEventController<T> eventController,
-                                    PropertyBindingController<T> bindingController,
+    public SimpleObservableProperty(Object bean,
+                                    EventController eventController,
                                     T initialValue) {
-        super(eventController, bindingController);
+        super(bean, eventController);
         mValue = initialValue;
     }
 
     public SimpleObservableProperty(EventController eventController,
-                                    PropertyBindingController<T> bindingController,
                                     T initialValue) {
-        super(eventController, bindingController);
+        super(eventController);
         mValue = initialValue;
-    }
-
-    public SimpleObservableProperty(ObservableEventController<T> eventController,
-                                    PropertyBindingController<T> bindingController) {
-        this(eventController, bindingController, null);
-    }
-
-    public SimpleObservableProperty(EventController eventController, T initialValue) {
-        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
-    }
-
-    public SimpleObservableProperty(EventController eventController) {
-        this(eventController, null);
-    }
-
-    public SimpleObservableProperty(T initialValue) {
-        this(Controllers.newSyncExecutionController(), initialValue);
-    }
-
-    public SimpleObservableProperty() {
-        this((T) null);
     }
 
     @Override

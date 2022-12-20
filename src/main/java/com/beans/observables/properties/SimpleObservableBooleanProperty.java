@@ -19,40 +19,17 @@ public class SimpleObservableBooleanProperty extends ObservableBooleanPropertyBa
 
     private boolean mValue;
 
-    public SimpleObservableBooleanProperty(ObservableEventController<Boolean> eventController,
-                                           PropertyBindingController<Boolean> bindingController,
+    public SimpleObservableBooleanProperty(Object bean,
+                                           EventController eventController,
                                            boolean initialValue) {
-        super(eventController, bindingController);
+        super(bean, eventController);
         mValue = initialValue;
     }
 
     public SimpleObservableBooleanProperty(EventController eventController,
-                                        PropertyBindingController<Boolean> bindingController,
-                                              boolean initialValue) {
-        super(eventController, bindingController);
+                                           boolean initialValue) {
+        super(eventController);
         mValue = initialValue;
-    }
-
-    public SimpleObservableBooleanProperty(ObservableEventController<Boolean> eventController,
-                                           PropertyBindingController<Boolean> bindingController) {
-        this(eventController, bindingController, false);
-    }
-
-
-    public SimpleObservableBooleanProperty(EventController eventController, boolean initialValue) {
-        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
-    }
-
-    public SimpleObservableBooleanProperty(EventController eventController) {
-        this(eventController, false);
-    }
-
-    public SimpleObservableBooleanProperty(boolean initialValue) {
-        this(Controllers.newSyncExecutionController(), initialValue);
-    }
-
-    public SimpleObservableBooleanProperty() {
-        this(false);
     }
 
     @Override

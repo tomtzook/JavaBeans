@@ -10,14 +10,24 @@ import java.util.Optional;
 public abstract class ObservableBooleanPropertyBase extends ObservablePropertyBase<Boolean>
         implements ObservableBooleanProperty {
 
+    protected ObservableBooleanPropertyBase(Object bean,
+                                            ObservableEventController<Boolean> eventController,
+                                            PropertyBindingController<Boolean> bindingController) {
+        super(bean, eventController, bindingController);
+    }
+
     protected ObservableBooleanPropertyBase(ObservableEventController<Boolean> eventController,
                                         PropertyBindingController<Boolean> bindingController) {
         super(eventController, bindingController);
     }
 
-    protected ObservableBooleanPropertyBase(EventController eventController,
-                                        PropertyBindingController<Boolean> bindingController) {
-        super(eventController, bindingController);
+    protected ObservableBooleanPropertyBase(Object bean,
+                                           EventController eventController) {
+        super(bean, eventController);
+    }
+
+    protected ObservableBooleanPropertyBase(EventController eventController) {
+        super(eventController);
     }
 
     /**

@@ -7,6 +7,7 @@ import com.beans.observables.properties.ObservableDoubleProperty;
 import com.beans.observables.properties.ObservableDoublePropertyBase;
 import com.notifier.EventController;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -34,31 +35,17 @@ public class AtomicObservableDoubleProperty extends ObservableDoublePropertyBase
 
     private final AtomicLong mValue;
 
-    public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController,
-                                          PropertyBindingController<Double> bindingController,
+    public AtomicObservableDoubleProperty(Object bean,
+                                          EventController eventController,
                                           double initialValue) {
-        super(eventController, bindingController);
+        super(bean, eventController);
         mValue = new AtomicLong(Double.doubleToLongBits(initialValue));
     }
 
     public AtomicObservableDoubleProperty(EventController eventController,
-                                              PropertyBindingController<Double> bindingController,
-                                              double initialValue) {
-        super(eventController, bindingController);
+                                          double initialValue) {
+        super(eventController);
         mValue = new AtomicLong(Double.doubleToLongBits(initialValue));
-    }
-
-    public AtomicObservableDoubleProperty(ObservableEventController<Double> eventController,
-                                          PropertyBindingController<Double> bindingController) {
-        this(eventController, bindingController, 0.0);
-    }
-
-    public AtomicObservableDoubleProperty(EventController eventController, double initialValue) {
-        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
-    }
-
-    public AtomicObservableDoubleProperty(EventController eventController) {
-        this(eventController, 0.0);
     }
 
     @Override

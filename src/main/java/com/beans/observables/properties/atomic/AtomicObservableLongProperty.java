@@ -8,6 +8,7 @@ import com.beans.observables.properties.ObservableLongPropertyBase;
 import com.notifier.EventController;
 
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <p>
@@ -34,31 +35,17 @@ public class AtomicObservableLongProperty extends ObservableLongPropertyBase {
 
     private final AtomicLong mValue;
 
-    public AtomicObservableLongProperty(ObservableEventController<Long> eventController,
-                                        PropertyBindingController<Long> bindingController,
+    public AtomicObservableLongProperty(Object bean,
+                                        EventController eventController,
                                         long initialValue) {
-        super(eventController, bindingController);
+        super(bean, eventController);
         mValue = new AtomicLong(initialValue);
     }
 
     public AtomicObservableLongProperty(EventController eventController,
-                                       PropertyBindingController<Long> bindingController,
-                                       long initialValue) {
-        super(eventController, bindingController);
+                                        long initialValue) {
+        super(eventController);
         mValue = new AtomicLong(initialValue);
-    }
-
-    public AtomicObservableLongProperty(ObservableEventController<Long> eventController,
-                                        PropertyBindingController<Long> bindingController) {
-        this(eventController, bindingController, 0);
-    }
-
-    public AtomicObservableLongProperty(EventController eventController, long initialValue) {
-        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
-    }
-
-    public AtomicObservableLongProperty(EventController eventController) {
-        this(eventController, 0);
     }
 
     @Override

@@ -10,14 +10,24 @@ import java.util.Optional;
 public abstract class ObservableLongPropertyBase extends ObservablePropertyBase<Long>
         implements ObservableLongProperty {
 
+    protected ObservableLongPropertyBase(Object bean,
+                                         ObservableEventController<Long> eventController,
+                                         PropertyBindingController<Long> bindingController) {
+        super(bean, eventController, bindingController);
+    }
+
     protected ObservableLongPropertyBase(ObservableEventController<Long> eventController,
-                                     PropertyBindingController<Long> bindingController) {
+                                         PropertyBindingController<Long> bindingController) {
         super(eventController, bindingController);
     }
 
-    protected ObservableLongPropertyBase(EventController eventController,
-                                     PropertyBindingController<Long> bindingController) {
-        super(eventController, bindingController);
+    protected ObservableLongPropertyBase(Object bean,
+                                         EventController eventController) {
+        super(bean, eventController);
+    }
+
+    protected ObservableLongPropertyBase(EventController eventController) {
+        super(eventController);
     }
 
     /**

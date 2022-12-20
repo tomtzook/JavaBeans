@@ -1,6 +1,5 @@
 package com.beans.observables;
 
-import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.properties.ObservableBooleanProperty;
 import com.beans.observables.properties.ObservableDoubleProperty;
 import com.beans.observables.properties.ObservableIntProperty;
@@ -60,73 +59,126 @@ public class ObservableFactory {
         this(Controllers.newSyncExecutionController());
     }
 
+    public <T> ObservableProperty<T> newProperty(Object bean, T initialValue) {
+        return new SimpleObservableProperty<T>(
+                bean,
+                mEventController,
+                initialValue);
+    }
+
     public <T> ObservableProperty<T> newProperty(T initialValue) {
         return new SimpleObservableProperty<T>(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
+                initialValue);
+    }
+
+    public <T> ObservableProperty<T> newConcurrentProperty(Object bean, T initialValue) {
+        return new AtomicObservableProperty<>(
+                bean,
+                mEventController,
                 initialValue);
     }
 
     public <T> ObservableProperty<T> newConcurrentProperty(T initialValue) {
         return new AtomicObservableProperty<>(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
+                initialValue);
+    }
+
+    public ObservableBooleanProperty newBooleanProperty(Object bean, boolean initialValue) {
+        return new SimpleObservableBooleanProperty(
+                bean,
+                mEventController,
                 initialValue);
     }
 
     public ObservableBooleanProperty newBooleanProperty(boolean initialValue) {
         return new SimpleObservableBooleanProperty(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
+                initialValue);
+    }
+
+    public ObservableBooleanProperty newConcurrentBooleanProperty(Object bean, boolean initialValue) {
+        return new AtomicObservableBooleanProperty(
+                bean,
+                mEventController,
                 initialValue);
     }
 
     public ObservableBooleanProperty newConcurrentBooleanProperty(boolean initialValue) {
         return new AtomicObservableBooleanProperty(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
+                initialValue);
+    }
+
+    public ObservableIntProperty newIntProperty(Object bean, int initialValue) {
+        return new SimpleObservableIntProperty(
+                bean,
+                mEventController,
                 initialValue);
     }
 
     public ObservableIntProperty newIntProperty(int initialValue) {
         return new SimpleObservableIntProperty(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
+                initialValue);
+    }
+
+    public ObservableIntProperty newConcurrentIntProperty(Object bean, int initialValue) {
+        return new AtomicObservableIntProperty(
+                bean,
+                mEventController,
                 initialValue);
     }
 
     public ObservableIntProperty newConcurrentIntProperty(int initialValue) {
         return new AtomicObservableIntProperty(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
+                initialValue);
+    }
+
+    public ObservableDoubleProperty newDoubleProperty(Object bean, double initialValue) {
+        return new SimpleObservableDoubleProperty(
+                bean,
+                mEventController,
                 initialValue);
     }
 
     public ObservableDoubleProperty newDoubleProperty(double initialValue) {
         return new SimpleObservableDoubleProperty(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
+                initialValue);
+    }
+
+    public ObservableDoubleProperty newConcurrentDoubleProperty(Object bean, double initialValue) {
+        return new AtomicObservableDoubleProperty(
+                bean,
+                mEventController,
                 initialValue);
     }
 
     public ObservableDoubleProperty newConcurrentDoubleProperty(double initialValue) {
         return new AtomicObservableDoubleProperty(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
+                initialValue);
+    }
+
+    public ObservableLongProperty newLongProperty(Object bean, long initialValue) {
+        return new SimpleObservableLongProperty(
+                bean,
+                mEventController,
                 initialValue);
     }
 
     public ObservableLongProperty newLongProperty(long initialValue) {
         return new SimpleObservableLongProperty(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
                 initialValue);
     }
 
     public ObservableLongProperty newConcurrentLongProperty(long initialValue) {
         return new AtomicObservableLongProperty(
                 mEventController,
-                new AtomicPropertyBindingController<>(),
                 initialValue);
     }
 }

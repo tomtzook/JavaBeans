@@ -10,15 +10,26 @@ import java.util.Optional;
 public abstract class ObservableIntPropertyBase extends ObservablePropertyBase<Integer>
         implements ObservableIntProperty {
 
+    protected ObservableIntPropertyBase(Object bean,
+                                        ObservableEventController<Integer> eventController,
+                                        PropertyBindingController<Integer> bindingController) {
+        super(bean, eventController, bindingController);
+    }
+
     protected ObservableIntPropertyBase(ObservableEventController<Integer> eventController,
                                     PropertyBindingController<Integer> bindingController) {
         super(eventController, bindingController);
     }
 
-    protected ObservableIntPropertyBase(EventController eventController,
-                                    PropertyBindingController<Integer> bindingController) {
-        super(eventController, bindingController);
+    protected ObservableIntPropertyBase(Object bean,
+                                         EventController eventController) {
+        super(bean, eventController);
     }
+
+    protected ObservableIntPropertyBase(EventController eventController) {
+        super(eventController);
+    }
+
     /**
      * {@inheritDoc}
      * <p>

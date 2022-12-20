@@ -3,6 +3,7 @@ package com.beans.observables;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -22,6 +23,14 @@ import java.util.function.Supplier;
  * @since JavaBeans 1.0
  */
 public interface ObservableValue<T> extends Supplier<T> {
+
+    /**
+     * Gets the BEAN attached to this object. Usually this represents
+     * an object whose properties/fields are represented by this observable.
+     *
+     * @return the BEAN, or <i>null</i> if not set.
+     */
+    Object getBean();
 
     /**
      * Adds a listener for changes of the value.
@@ -44,6 +53,4 @@ public interface ObservableValue<T> extends Supplier<T> {
 
     void bind(ObservableValue<T> observableValue);
     void unbind();
-
-    <T2> ObservableValue<T2> as(Function<T, T2> convertor);
 }

@@ -8,6 +8,7 @@ import com.beans.observables.properties.ObservableBooleanPropertyBase;
 import com.notifier.EventController;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>
@@ -30,31 +31,18 @@ public class AtomicObservableBooleanProperty extends ObservableBooleanPropertyBa
 
     private final AtomicBoolean mValue;
 
-    public AtomicObservableBooleanProperty(ObservableEventController<Boolean> eventController,
-                                           PropertyBindingController<Boolean> bindingController,
+
+    public AtomicObservableBooleanProperty(Object bean,
+                                           EventController eventController,
                                            boolean initialValue) {
-        super(eventController, bindingController);
+        super(bean, eventController);
         mValue = new AtomicBoolean(initialValue);
     }
 
     public AtomicObservableBooleanProperty(EventController eventController,
-                                              PropertyBindingController<Boolean> bindingController,
-                                              boolean initialValue) {
-        super(eventController, bindingController);
+                                           boolean initialValue) {
+        super(eventController);
         mValue = new AtomicBoolean(initialValue);
-    }
-
-    public AtomicObservableBooleanProperty(ObservableEventController<Boolean> eventController,
-                                           PropertyBindingController<Boolean> bindingController) {
-        this(eventController, bindingController, false);
-    }
-
-    public AtomicObservableBooleanProperty(EventController eventController, boolean initialValue) {
-        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
-    }
-
-    public AtomicObservableBooleanProperty(EventController eventController) {
-        this(eventController, false);
     }
 
     @Override

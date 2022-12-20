@@ -19,39 +19,17 @@ public class SimpleObservableDoubleProperty extends ObservableDoublePropertyBase
 
     private double mValue;
 
-    public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController,
-                                          PropertyBindingController<Double> bindingController,
+    public SimpleObservableDoubleProperty(Object bean,
+                                          EventController eventController,
                                           double initialValue) {
-        super(eventController, bindingController);
+        super(bean, eventController);
         mValue = initialValue;
     }
 
     public SimpleObservableDoubleProperty(EventController eventController,
-                                              PropertyBindingController<Double> bindingController,
-                                              double initialValue) {
-        super(eventController, bindingController);
+                                          double initialValue) {
+        super(eventController);
         mValue = initialValue;
-    }
-
-    public SimpleObservableDoubleProperty(ObservableEventController<Double> eventController,
-                                          PropertyBindingController<Double> bindingController) {
-        this(eventController, bindingController, 0.0);
-    }
-
-    public SimpleObservableDoubleProperty(EventController eventController, double initialValue) {
-        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
-    }
-
-    public SimpleObservableDoubleProperty(EventController eventController) {
-        this(eventController, 0.0);
-    }
-
-    public SimpleObservableDoubleProperty(double initialValue) {
-        this(Controllers.newSyncExecutionController(), initialValue);
-    }
-
-    public SimpleObservableDoubleProperty() {
-        this(0.0);
     }
 
     @Override

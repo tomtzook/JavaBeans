@@ -19,39 +19,17 @@ public class SimpleObservableLongProperty extends ObservableLongPropertyBase {
 
     private long mValue;
 
-    public SimpleObservableLongProperty(ObservableEventController<Long> eventController,
-                                        PropertyBindingController<Long> bindingController,
-                                        long initialValue) {
-        super(eventController, bindingController);
+    public SimpleObservableLongProperty(Object bean,
+                                       EventController eventController,
+                                       long initialValue) {
+        super(bean, eventController);
         mValue = initialValue;
     }
 
     public SimpleObservableLongProperty(EventController eventController,
-                                              PropertyBindingController<Long> bindingController,
-                                              long initialValue) {
-        super(eventController, bindingController);
+                                        long initialValue) {
+        super(eventController);
         mValue = initialValue;
-    }
-
-    public SimpleObservableLongProperty(ObservableEventController<Long> eventController,
-                                        PropertyBindingController<Long> bindingController) {
-        this(eventController, bindingController, 0);
-    }
-
-    public SimpleObservableLongProperty(EventController eventController, long initialValue) {
-        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
-    }
-
-    public SimpleObservableLongProperty(EventController eventController) {
-        this(eventController, 0);
-    }
-
-    public SimpleObservableLongProperty(long initialValue) {
-        this(Controllers.newSyncExecutionController(), initialValue);
-    }
-
-    public SimpleObservableLongProperty() {
-        this(0);
     }
 
     @Override

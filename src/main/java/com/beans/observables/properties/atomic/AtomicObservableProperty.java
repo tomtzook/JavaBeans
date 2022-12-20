@@ -33,31 +33,17 @@ public class AtomicObservableProperty<T> extends ObservablePropertyBase<T> {
 
     private final AtomicReference<T> mValue;
 
-    public AtomicObservableProperty(ObservableEventController<T> eventController,
-                                    PropertyBindingController<T> bindingController,
+    public AtomicObservableProperty(Object bean,
+                                    EventController eventController,
                                     T initialValue) {
-        super(eventController, bindingController);
+        super(bean, eventController);
         mValue = new AtomicReference<>(initialValue);
     }
 
     public AtomicObservableProperty(EventController eventController,
-                                        PropertyBindingController<T> bindingController,
-                                        T initialValue) {
-        super(eventController, bindingController);
+                                    T initialValue) {
+        super(eventController);
         mValue = new AtomicReference<>(initialValue);
-    }
-
-    public AtomicObservableProperty(ObservableEventController<T> eventController,
-                                    PropertyBindingController<T> bindingController) {
-        this(eventController, bindingController, null);
-    }
-
-    public AtomicObservableProperty(EventController eventController, T initialValue) {
-        this(eventController, new AtomicPropertyBindingController<>(), initialValue);
-    }
-
-    public AtomicObservableProperty(EventController eventController) {
-        this(eventController, null);
     }
 
     @Override

@@ -205,25 +205,25 @@ public class ObservablePropertyImplTest {
     private static List<Function<ChangeListener, Impl>> implementations() {
         EventController eventController = Controllers.newSyncExecutionController();
         return Arrays.asList(
-                (l)-> new Impl(new SimpleObservableProperty<>(eventController),
+                (l)-> new Impl(new SimpleObservableProperty<>(eventController, null),
                         Object.class, l),
-                (l)-> new Impl(new SimpleObservableBooleanProperty(eventController),
+                (l)-> new Impl(new SimpleObservableBooleanProperty(eventController, false),
                         Boolean.class, l),
-                (l)-> new Impl(new SimpleObservableDoubleProperty(eventController),
+                (l)-> new Impl(new SimpleObservableDoubleProperty(eventController, 0.0),
                         Double.class, l),
-                (l)-> new Impl(new SimpleObservableIntProperty(eventController),
+                (l)-> new Impl(new SimpleObservableIntProperty(eventController, 0),
                         Integer.class, l),
-                (l)-> new Impl(new SimpleObservableLongProperty(eventController),
+                (l)-> new Impl(new SimpleObservableLongProperty(eventController, 0),
                         Long.class, l),
-                (l)-> new Impl(new AtomicObservableProperty(eventController),
+                (l)-> new Impl(new AtomicObservableProperty(eventController, null),
                         Object.class, l),
-                (l)-> new Impl(new AtomicObservableBooleanProperty(eventController),
+                (l)-> new Impl(new AtomicObservableBooleanProperty(eventController, false),
                         Boolean.class, l),
-                (l)-> new Impl(new AtomicObservableDoubleProperty(eventController),
+                (l)-> new Impl(new AtomicObservableDoubleProperty(eventController, 0.0),
                         Double.class, l),
-                (l)-> new Impl(new AtomicObservableIntProperty(eventController),
+                (l)-> new Impl(new AtomicObservableIntProperty(eventController, 0),
                         Integer.class, l),
-                (l)-> new Impl(new AtomicObservableLongProperty(eventController),
+                (l)-> new Impl(new AtomicObservableLongProperty(eventController, 0),
                         Long.class, l)
         );
     }

@@ -1,6 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.observables.ObservableValue;
+import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.binding.ObservableBinding;
 import com.beans.observables.binding.PropertyBindingController;
 import com.beans.observables.listeners.ChangeEvent;
@@ -36,22 +37,36 @@ import java.util.function.Function;
  */
 public abstract class ObservablePropertyBase<T> implements ObservableProperty<T> {
 
+    private final Object mBean;
     private final ObservableEventController<T> mEventController;
     private final PropertyBindingController<T> mBindingController;
 
-    protected ObservablePropertyBase(ObservableEventController<T> eventController, PropertyBindingController<T> bindingController) {
+    protected ObservablePropertyBase(Object bean,
+                                     ObservableEventController<T> eventController,
+                                     PropertyBindingController<T> bindingController) {
+        mBean = bean;
         mEventController = eventController;
         mBindingController = bindingController;
     }
 
-    protected ObservablePropertyBase(EventController eventController, PropertyBindingController<T> bindingController) {
-        mEventController = new ObservableEventController.Impl<>(eventController, this);
-        mBindingController = bindingController;
+    protected ObservablePropertyBase(ObservableEventController<T> eventController,
+                                     PropertyBindingController<T> bindingController) {
+        this(null, eventController, bindingController);
     }
 
-    private ObservablePropertyBase() {
-        mEventController = null;
-        mBindingController = null;
+    protected ObservablePropertyBase(Object bean, EventController eventController) {
+        mBean = bean;
+        mEventController = new ObservableEventController.Impl<>(eventController, this);
+        mBindingController = new AtomicPropertyBindingController<>();
+    }
+
+    protected ObservablePropertyBase(EventController eventController) {
+        this(null, eventController);
+    }
+
+    @Override
+    public Object getBean() {
+        return mBean;
     }
 
     @Override
@@ -120,29 +135,6 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
         }
 
         return Optional.empty();
-    }
-
-    @Override
-    public <T2> ObservableValue<T2> as(Function<T, T2> convertor) {
-        ObservableValue<T2> other = new SimpleObservableProperty<>();
-        other.bind(new ObservablePropertyBase<T2>() {
-            @Override
-            protected void setInternalDirect(T2 value) {
-                throw new UnsupportedOperationException("cannot set converted value");
-            }
-
-            @Override
-            public void set(T2 value) {
-                throw new UnsupportedOperationException("cannot set converted value");
-            }
-
-            @Override
-            public T2 get() {
-                return convertor.apply(ObservablePropertyBase.this.get());
-            }
-        });
-
-        return other;
     }
 
     protected abstract void setInternalDirect(T value);
