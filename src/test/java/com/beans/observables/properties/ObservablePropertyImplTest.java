@@ -1,6 +1,7 @@
 package com.beans.observables.properties;
 
 import com.beans.observables.ObservableValue;
+import com.beans.observables.RegisteredListener;
 import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
@@ -157,6 +158,7 @@ public class ObservablePropertyImplTest {
                     Object someValue = valueForProperty(impl);
                     ObservableValue value = mock(ObservableValue.class);
                     when(value.get()).thenReturn(someValue);
+                    when(value.addChangeListener(any())).thenReturn(mock(RegisteredListener.class));
 
                     return Arguments.of(impl.mProperty, impl.mProperty.get(), someValue, value);
                 });
@@ -170,6 +172,7 @@ public class ObservablePropertyImplTest {
                     Object someValue = valueForProperty(impl);
                     ObservableProperty value = mock(ObservableProperty.class);
                     when(value.get()).thenReturn(someValue);
+                    when(value.addChangeListener(any())).thenReturn(mock(RegisteredListener.class));
 
                     return Arguments.of(impl.mProperty, impl.mProperty.get(), someValue, value);
                 });

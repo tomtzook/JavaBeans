@@ -1,6 +1,7 @@
 package com.beans.observables.binding;
 
 import com.beans.observables.ObservableValue;
+import com.beans.observables.RegisteredListener;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
 
@@ -9,12 +10,11 @@ import java.util.function.Consumer;
 public class SingleDirectionBinding<T> implements ObservableBinding<T> {
 
     private final ObservableValue<T> mBound;
-    private final ChangeListener<T> mListener;
+    private final RegisteredListener mListener;
 
     public SingleDirectionBinding(ObservableValue<T> bound, Consumer<ChangeEvent<T>> onObservableValueChange) {
         mBound = bound;
-        mListener = onObservableValueChange::accept;
-        mBound.addChangeListener(mListener);
+        mListener = mBound.addChangeListener(onObservableValueChange::accept);
     }
 
     @Override
@@ -29,6 +29,6 @@ public class SingleDirectionBinding<T> implements ObservableBinding<T> {
 
     @Override
     public void onUnbind() {
-        mBound.removeChangeListener(mListener);
+        mListener.remove();
     }
 }

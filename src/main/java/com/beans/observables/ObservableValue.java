@@ -2,9 +2,12 @@ package com.beans.observables;
 
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
+import com.beans.util.function.OneWayConverter;
+import com.beans.util.function.ToBooleanConverter;
+import com.beans.util.function.ToDoubleConverter;
+import com.beans.util.function.ToIntConverter;
+import com.beans.util.function.ToLongConverter;
 
-import java.util.Objects;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -42,15 +45,14 @@ public interface ObservableValue<T> extends Supplier<T> {
      *
      * @param changeListener listener to add.
      */
-    void addChangeListener(ChangeListener<? super T> changeListener);
-
-    /**
-     * Removes a listener if it was added.
-     *
-     * @param changeListener listener to remove.
-     */
-    void removeChangeListener(ChangeListener<? super T> changeListener);
+    RegisteredListener addChangeListener(ChangeListener<? super T> changeListener);
 
     void bind(ObservableValue<T> observableValue);
     void unbind();
+
+    <T2> ObservableValue<T2> as(OneWayConverter<T, T2> converter);
+    ObservableBooleanValue asBoolean(ToBooleanConverter<T> converter);
+    ObservableIntValue asInt(ToIntConverter<T> converter);
+    ObservableLongValue asLong(ToLongConverter<T> converter);
+    ObservableDoubleValue asDouble(ToDoubleConverter<T> converter);
 }

@@ -1,18 +1,33 @@
 package com.beans.observables.properties;
 
+import com.beans.observables.ObservableBooleanValue;
+import com.beans.observables.ObservableDoubleValue;
+import com.beans.observables.ObservableIntValue;
+import com.beans.observables.ObservableLongValue;
 import com.beans.observables.ObservableValue;
+import com.beans.observables.RegisteredListener;
 import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.binding.ObservableBinding;
 import com.beans.observables.binding.PropertyBindingController;
+import com.beans.observables.converted.ConvertedObservable;
+import com.beans.observables.converted.ToBooleanConvertedObservable;
+import com.beans.observables.converted.ToDoubleConvertedObservable;
+import com.beans.observables.converted.ToIntConvertedObservable;
+import com.beans.observables.converted.ToLongConvertedObservable;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
+import com.beans.observables.listeners.EventControllerImpl;
 import com.beans.observables.listeners.ObservableEventController;
+import com.beans.util.function.OneWayConverter;
+import com.beans.util.function.ToBooleanConverter;
+import com.beans.util.function.ToDoubleConverter;
+import com.beans.util.function.ToIntConverter;
+import com.beans.util.function.ToLongConverter;
 import com.notifier.EventController;
 
 import java.lang.ref.WeakReference;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * <p>
@@ -56,7 +71,7 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
 
     protected ObservablePropertyBase(Object bean, EventController eventController) {
         mBean = bean;
-        mEventController = new ObservableEventController.Impl<>(eventController, this);
+        mEventController = new EventControllerImpl<>(eventController, this);
         mBindingController = new AtomicPropertyBindingController<>();
     }
 
@@ -70,13 +85,8 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
     }
 
     @Override
-    public final void addChangeListener(ChangeListener<? super T> changeListener) {
-        mEventController.addListener(changeListener);
-    }
-
-    @Override
-    public final void removeChangeListener(ChangeListener<? super T> changeListener) {
-        mEventController.removeListener(changeListener);
+    public final RegisteredListener addChangeListener(ChangeListener<? super T> changeListener) {
+        return mEventController.addListener(changeListener);
     }
 
     @Override
@@ -96,6 +106,31 @@ public abstract class ObservablePropertyBase<T> implements ObservableProperty<T>
             ObservableBinding<T> binding = optional.get();
             setInternalDirect(binding.get());
         }
+    }
+
+    @Override
+    public <T2> ObservableValue<T2> as(OneWayConverter<T, T2> converter) {
+        return new ConvertedObservable<>(this, converter);
+    }
+
+    @Override
+    public ObservableBooleanValue asBoolean(ToBooleanConverter<T> converter) {
+        return new ToBooleanConvertedObservable<>(this, converter);
+    }
+
+    @Override
+    public ObservableIntValue asInt(ToIntConverter<T> converter) {
+        return new ToIntConvertedObservable<>(this, converter);
+    }
+
+    @Override
+    public ObservableLongValue asLong(ToLongConverter<T> converter) {
+        return new ToLongConvertedObservable<>(this, converter);
+    }
+
+    @Override
+    public ObservableDoubleValue asDouble(ToDoubleConverter<T> converter) {
+        return new ToDoubleConvertedObservable<>(this, converter);
     }
 
     /**
