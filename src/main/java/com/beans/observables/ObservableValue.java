@@ -7,6 +7,7 @@ import com.beans.util.function.ToBooleanConverter;
 import com.beans.util.function.ToDoubleConverter;
 import com.beans.util.function.ToIntConverter;
 import com.beans.util.function.ToLongConverter;
+import com.notifier.RegisteredListener;
 
 import java.util.function.Supplier;
 

@@ -5,7 +5,6 @@ import com.beans.observables.ObservableDoubleValue;
 import com.beans.observables.ObservableIntValue;
 import com.beans.observables.ObservableLongValue;
 import com.beans.observables.ObservableValue;
-import com.beans.observables.RegisteredListener;
 import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.binding.ObservableBinding;
 import com.beans.observables.binding.PropertyBindingController;
@@ -24,6 +23,7 @@ import com.beans.util.function.ToDoubleConverter;
 import com.beans.util.function.ToIntConverter;
 import com.beans.util.function.ToLongConverter;
 import com.notifier.EventController;
+import com.notifier.RegisteredListener;
 
 import java.lang.ref.WeakReference;
 import java.util.Optional;

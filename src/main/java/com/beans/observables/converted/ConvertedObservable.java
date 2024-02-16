@@ -5,13 +5,13 @@ import com.beans.observables.ObservableDoubleValue;
 import com.beans.observables.ObservableIntValue;
 import com.beans.observables.ObservableLongValue;
 import com.beans.observables.ObservableValue;
-import com.beans.observables.RegisteredListener;
 import com.beans.observables.listeners.ChangeListener;
 import com.beans.util.function.OneWayConverter;
 import com.beans.util.function.ToBooleanConverter;
 import com.beans.util.function.ToDoubleConverter;
 import com.beans.util.function.ToIntConverter;
 import com.beans.util.function.ToLongConverter;
+import com.notifier.RegisteredListener;
 
 public class ConvertedObservable<T, T2> implements ObservableValue<T2> {
 

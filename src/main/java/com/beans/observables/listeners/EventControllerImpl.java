@@ -1,9 +1,9 @@
 package com.beans.observables.listeners;
 
 import com.beans.observables.ObservableValue;
-import com.beans.observables.RegisteredListener;
 import com.notifier.Event;
 import com.notifier.EventController;
+import com.notifier.RegisteredListener;
 
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -26,8 +26,7 @@ public class EventControllerImpl<T> implements ObservableEventController<T> {
 
     @Override
     public RegisteredListener addListener(ChangeListener<? super T> listener) {
-        mEventController.registerListener(listener, mEventPredicate);
-        return new RegisteredListenerImpl(mEventController, listener);
+        return mEventController.registerListener(listener, mEventPredicate);
     }
 
     @Override

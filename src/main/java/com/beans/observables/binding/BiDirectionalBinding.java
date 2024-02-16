@@ -1,9 +1,8 @@
 package com.beans.observables.binding;
 
-import com.beans.observables.RegisteredListener;
 import com.beans.observables.listeners.ChangeEvent;
-import com.beans.observables.listeners.ChangeListener;
 import com.beans.observables.properties.ObservableProperty;
+import com.notifier.RegisteredListener;
 
 import java.util.function.Consumer;
 
@@ -29,6 +28,6 @@ public class BiDirectionalBinding<T> implements ObservableBinding<T> {
 
     @Override
     public void onUnbind() {
-        mListener.remove();
+        mListener.unregister();
     }
 }

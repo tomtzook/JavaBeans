@@ -1,6 +1,6 @@
 package com.beans.observables.listeners;
 
-import com.beans.observables.RegisteredListener;
+import com.notifier.RegisteredListener;
 
 public interface ObservableEventController<T> {
 

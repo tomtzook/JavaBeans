@@ -1,7 +1,6 @@
 package com.beans.observables.properties;
 
 import com.beans.observables.ObservableValue;
-import com.beans.observables.RegisteredListener;
 import com.beans.observables.binding.AtomicPropertyBindingController;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
@@ -13,6 +12,7 @@ import com.beans.observables.properties.atomic.AtomicObservableLongProperty;
 import com.beans.observables.properties.atomic.AtomicObservableProperty;
 import com.notifier.Controllers;
 import com.notifier.EventController;
+import com.notifier.RegisteredListener;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
